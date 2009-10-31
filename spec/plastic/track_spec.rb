@@ -35,28 +35,24 @@ describe Plastic do
       parser
     end
 
-    context "with no arguments" do
-      it "parses the contents of #track_1" do
-        arg = "foo"
-        @instance.should_receive(:track_1).once.and_return(arg)
-        mock_track_1_parser.should_receive(:match).with(arg).once
-        @instance.parse_track_1!
-      end
+    it "with no arguments parses the contents of #track_1" do
+      arg = "foo"
+      @instance.should_receive(:track_1).once.and_return(arg)
+      mock_track_1_parser.should_receive(:match).with(arg).once
+      @instance.parse_track_1!
     end
 
-    context "with a nil argument" do
-      it "parses the contents of #track_1" do
-        arg = "foo"
-        @instance.should_receive(:track_1).once.and_return(arg)
-        mock_track_1_parser.should_receive(:match).with(arg).once
-        @instance.parse_track_1! nil
-      end
+    it "with nil parses the contents of #track_1" do
+      arg = "foo"
+      @instance.should_receive(:track_1).once.and_return(arg)
+      mock_track_1_parser.should_receive(:match).with(arg).once
+      @instance.parse_track_1! nil
     end
 
-    context "with argument" do
-      [0, 1, "foo", "bar", StandardError].each do |value|
-        it "#{value} attempts to parse it" do
-        end
+    [0, 1, "foo", "bar", StandardError].each do |value|
+      it "with #{value} attempts to parse the string representation" do
+        mock_track_1_parser.should_receive(:match).with(value.to_s).once
+        @instance.parse_track_1! value
       end
     end
   end
