@@ -21,4 +21,27 @@ describe Plastic do
       lambda { @instance.parse_track! arg }.should raise_error(StandardError)
     end
   end
+
+  describe "#track_1_parser" do
+    it "returns a regular expression" do
+      @instance.track_1_parser.should be_instance_of(Regexp)
+    end
+  end
+
+  describe "#parse_track_1!" do
+    def mock_track_1_parser
+      parser = mock()
+      @instance.should_receive(:track_1_parser).once.and_return(parser)
+      parser
+    end
+
+    context "with no arguments" do
+      it "parses the contents of #track_1" do
+        arg = "foo"
+        @instance.should_receive(:track_1).once.and_return(arg)
+        mock_track_1_parser.should_receive(:match).with(arg).once
+        @instance.parse_track_1!
+      end
+    end
+  end
 end
