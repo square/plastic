@@ -64,6 +64,7 @@ describe Plastic do
       ["B12345678901234567890^CW^1010123", nil, nil, nil],
       ["B123456789012^CW^0909123", "123456789012", "CW", "0909"],
       ["B123456789012345^Dorsey/Jack^1010123", "123456789012345", "Dorsey/Jack", "1010"],
+      ["%B123456789012345^Dorsey/Jack^1010123;", "123456789012345", "Dorsey/Jack", "1010"],
     ].each do |value, pan, name, expiration|
       it "with \"#{value}\" correctly parses pan, name and expiration" do
         @instance.parse_track_1! value
