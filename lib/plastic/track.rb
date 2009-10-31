@@ -34,8 +34,8 @@ class Plastic
     value ||= track_1
     if matched = track_1_parser.match(value.to_s)
       self.pan = matched[1]
-      self.expiration = matched[2]
-      self.month = matched[4]
+      self.name = matched[2]
+      self.expiration = matched[3]
     end
   end
 

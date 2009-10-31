@@ -55,5 +55,16 @@ describe Plastic do
         @instance.parse_track_1! value
       end
     end
+
+    [
+      ["", nil, nil, nil]
+    ].each do |value, pan, name, expiration|
+      it "with \"#{value}\" correctly parses pan, name and expiration" do
+        @instance.parse_track_1! value
+        @instance.pan.should == pan
+        @instance.name.should == name
+        @instance.expiration.should == expiration
+      end
+    end
   end
 end
