@@ -24,7 +24,7 @@ class Plastic
   # Discretionary data — may include Pin Verification Key Indicator (PVKI, 1 character), PIN Verification Value (PVV, 4 characters), Card Verification Value or Card Verification Code (CVV or CVK, 3 characters)
   # End sentinel — one character (generally '?')
 
-  TRACK_1_PARSER = /\A%?B(\d{12,19})^([^\^]{2,26})^(\d{4})(.{3})([^\?]*)\??\z/.freeze
+  TRACK_1_PARSER = /\A%?B(\d{12,19})\^([^\^]{2,26})\^(\d{4})(.{3})([^\?]*)\??\z/.freeze
 
   def track_1_parser
     TRACK_1_PARSER
