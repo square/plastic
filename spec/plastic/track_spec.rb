@@ -43,5 +43,21 @@ describe Plastic do
         @instance.parse_track_1!
       end
     end
+
+    context "with a nil argument" do
+      it "parses the contents of #track_1" do
+        arg = "foo"
+        @instance.should_receive(:track_1).once.and_return(arg)
+        mock_track_1_parser.should_receive(:match).with(arg).once
+        @instance.parse_track_1! nil
+      end
+    end
+
+    context "with argument" do
+      [0, 1, "foo", "bar", StandardError].each do |value|
+        it "#{value} attempts to parse it" do
+        end
+      end
+    end
   end
 end
