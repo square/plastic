@@ -13,6 +13,14 @@ class Plastic
     expiration.to_s[2..3]
   end
 
+  def first_name
+    given_name
+  end
+
+  def last_name
+    surname
+  end
+
   def verification_value
     cvv2
   end
