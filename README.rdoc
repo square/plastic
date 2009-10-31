@@ -1,0 +1,16 @@
+= Plastic
+
+Credit card “plastic” library for Ruby.
+
+== Prerequisites
+
+* TBD
+
+== Testing
+
+Testing requires the RSpec gem:
+
+* {Rspec}[http://rspec.info/]
+
+To test, run:
+  `rake spec`
