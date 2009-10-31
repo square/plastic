@@ -1,8 +1,14 @@
 class Plastic
-
   # ActiveMerchant::Billing::CreditCard
-  def number
-    pan
+  [
+    [:number, :pan],
+    [:first_name, :given_name],
+    [:last_name, :surname],
+    [:verification_value, :cvv2],
+    [:track1, :track_1],
+    [:track2, :track_2],
+  ].each do |_alias, method|
+    alias_method _alias, method
   end
 
   def year
@@ -11,25 +17,5 @@ class Plastic
 
   def month
     expiration.to_s[2..3]
-  end
-
-  def first_name
-    given_name
-  end
-
-  def last_name
-    surname
-  end
-
-  def verification_value
-    cvv2
-  end
-
-  def track1
-    track_1
-  end
-
-  def track2
-    track_2
   end
 end

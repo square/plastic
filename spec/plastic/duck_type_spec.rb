@@ -13,9 +13,8 @@ describe Plastic do
     [:track1, :track_1],
     [:track2, :track_2],
   ].each do |_alias, method|
-    it "##{_alias} calls ##{method}" do
-      @instance.should_receive(method).with.once.and_return("foo")
-      @instance.send(_alias).should == "foo"
+    it "##{method} is aliased as ##{_alias}" do
+      @instance.method(_alias).should == @instance.method(method)
     end
   end
 
