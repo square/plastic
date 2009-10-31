@@ -1,5 +1,5 @@
 class Plastic
-  attr_accessor :pan, :expiration, :name, :cvv2
+  attr_accessor :pan, :expiration, :surname, :given_name, :title, :cvv2
   attr_accessor :track_1, :track_2
 
   def initialize(attributes={})
@@ -14,5 +14,9 @@ class Plastic
     attributes.each do |key, value|
       send :"#{key}=", value
     end
+  end
+
+  def name
+    [title, given_name, surname].flatten.compact.join(" ").strip
   end
 end

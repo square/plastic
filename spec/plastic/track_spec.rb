@@ -60,20 +60,20 @@ describe Plastic do
     end
 
     [
-      ["", nil, nil, nil],
-      ["foobar", nil, nil, nil],
-      ["B1^N^1230", nil, nil, nil],
-      ["%B1^N^1230?", nil, nil, nil],
-      ["B12345678901234567890^CW^1010123", nil, nil, nil],
-      ["B123456789012^CW^0909123", "123456789012", "CW", "0909"],
-      ["B123456789012345^Dorsey/Jack^1010123", "123456789012345", "Dorsey/Jack", "1010"],
-      ["%B123456789012345^Dorsey/Jack^1010123?", "123456789012345", "Dorsey/Jack", "1010"],
-    ].each do |value, pan, name, expiration|
+      ["", nil, nil, ""],
+      ["foobar", nil, nil, ""],
+      ["B1^N^1230", nil, nil, ""],
+      ["%B1^N^1230?", nil, nil, ""],
+      ["B12345678901234567890^CW^1010123", nil, nil, ""],
+      ["B123456789012^CW^0909123", "123456789012", "0909", "CW"],
+      ["B123456789012345^Dorsey/Jack^1010123", "123456789012345", "1010", "Dorsey/Jack"],
+      ["%B123456789012345^Dorsey/Jack^1010123?", "123456789012345", "1010", "Dorsey/Jack"],
+    ].each do |value, pan, expiration, name|
       it "with \"#{value}\" correctly parses pan, name and expiration" do
         @instance.parse_track_1! value
         @instance.pan.should == pan
-        @instance.name.should == name
         @instance.expiration.should == expiration
+        @instance.name.should == name
       end
     end
   end

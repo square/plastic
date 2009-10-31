@@ -5,7 +5,7 @@ describe Plastic do
     @instance = described_class.new
   end
 
-  [:pan, :expiration, :name, :cvv2, :track_1, :track_2].each do |var|
+  [:pan, :expiration, :surname, :given_name, :title, :cvv2, :track_1, :track_2].each do |var|
     it "has accessor :#{var} and :#{var}=" do
       @instance.should respond_to(:"#{var}")
       @instance.should respond_to(:"#{var}=")
@@ -70,6 +70,12 @@ describe Plastic do
         @instance.should_receive(:foo=).with("bar")
         @instance.update! arg
       end
+    end
+  end
+
+  describe "#name" do
+    it "returns a string" do
+      @instance.name.should be_instance_of(String)
     end
   end
 end

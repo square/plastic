@@ -34,7 +34,7 @@ class Plastic
     value ||= track_1
     if matched = self.class.track_1_parser.match(value.to_s)
       self.pan = matched[1]
-      self.name = matched[2]
+      self.surname = matched[2]
       self.expiration = matched[3]
     end
   end
