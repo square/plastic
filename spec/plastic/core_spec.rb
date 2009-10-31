@@ -80,5 +80,18 @@ describe Plastic do
     it "returns a string" do
       @instance.name.should be_instance_of(String)
     end
+
+    [
+      ["Prince", nil, nil, "Prince"],
+      ["Walters", "Cameron", nil, "Cameron Walters"],
+      ["Howser", "Doogie", "Dr", "Dr Doogie Howser"],
+    ].each do |surname, given_name, title, name|
+      it "returns #{name} for the given input" do
+        @instance.surname = surname
+        @instance.given_name = given_name
+        @instance.title = title
+        @instance.name.should == name
+      end
+    end
   end
 end
