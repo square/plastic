@@ -22,16 +22,16 @@ describe Plastic do
     end
   end
 
-  describe "#track_1_parser" do
+  describe "self.track_1_parser" do
     it "returns a regular expression" do
-      @instance.track_1_parser.should be_instance_of(Regexp)
+      described_class.track_1_parser.should be_instance_of(Regexp)
     end
   end
 
   describe "#parse_track_1!" do
     def mock_track_1_parser
       parser = mock()
-      @instance.should_receive(:track_1_parser).once.and_return(parser)
+      described_class.should_receive(:track_1_parser).once.and_return(parser)
       parser
     end
 
@@ -62,7 +62,7 @@ describe Plastic do
       ["B1^N^1230", nil, nil, nil],
       ["%B1^N^1230?", nil, nil, nil],
       ["B12345678901234567890^CW^1010123", nil, nil, nil],
-      ["B123456789012^CW^1010123", "123456789012", "CW", "1010"],
+      ["B123456789012^CW^0909123", "123456789012", "CW", "0909"],
       ["B123456789012345^Dorsey/Jack^1010123", "123456789012345", "Dorsey/Jack", "1010"],
     ].each do |value, pan, name, expiration|
       it "with \"#{value}\" correctly parses pan, name and expiration" do

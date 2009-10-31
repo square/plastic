@@ -26,13 +26,13 @@ class Plastic
 
   TRACK_1_PARSER = /\A%?B(\d{12,19})\^([^\^]{2,26})\^(\d{4})(.{3})([^\?]*)\??\z/.freeze
 
-  def track_1_parser
+  def self.track_1_parser
     TRACK_1_PARSER
   end
 
   def parse_track_1!(value=nil)
     value ||= track_1
-    if matched = track_1_parser.match(value.to_s)
+    if matched = self.class.track_1_parser.match(value.to_s)
       self.pan = matched[1]
       self.name = matched[2]
       self.expiration = matched[3]
@@ -51,13 +51,13 @@ class Plastic
 
   TRACK_2_PARSER = /\A;?(\d{12,19})\=(\d{4})(.{3})([^\?]*)\??\z/.freeze
 
-  def track_2_parser
+  def self.track_2_parser
     TRACK_2_PARSER
   end
 
   def parse_track_2!(value=nil)
     value ||= track_2
-    if matched = track_2_parser.match(value.to_s)
+    if matched = self.class.track_2_parser.match(value.to_s)
       self.pan = matched[1]
       self.expiration = matched[2]
     end
