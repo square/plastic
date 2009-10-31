@@ -57,7 +57,8 @@ describe Plastic do
     end
 
     [
-      ["", nil, nil, nil]
+      ["", nil, nil, nil],
+      ["foobar", nil, nil, nil],
     ].each do |value, pan, name, expiration|
       it "with \"#{value}\" correctly parses pan, name and expiration" do
         @instance.parse_track_1! value
