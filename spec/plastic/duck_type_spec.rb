@@ -5,21 +5,20 @@ describe Plastic do
     @instance = described_class.new
   end
 
-  it "#number calls #pan" do
-    @instance.should_receive(:pan).with.once.and_return("foo")
-    @instance.number.should == "foo"
+  [
+    [:number, :pan],
+    [:first_name, :given_name],
+    [:last_name, :surname],
+    [:verification_value, :cvv2],
+    [:track1, :track_1],
+    [:track2, :track_2],
+  ].each do |_alias, method|
+    it "##{_alias} calls ##{method}" do
+      @instance.should_receive(method).with.once.and_return("foo")
+      @instance.send(_alias).should == "foo"
+    end
   end
 
   # TODO: spec #year
   # TODO: spec #month
-
-  it "#first_name calls #given_name" do
-    @instance.should_receive(:given_name).with.once.and_return("foo")
-    @instance.first_name.should == "foo"
-  end
-
-  it "#last_name calls #surname" do
-    @instance.should_receive(:surname).with.once.and_return("foo")
-    @instance.last_name.should == "foo"
-  end
 end
