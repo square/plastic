@@ -36,7 +36,8 @@ class Plastic
       (?:\/?([^.]+)(?:\.?([^^]+))?)?        # Given name and title
     )                                       #
     \^                                      # Field separator
-    (\d{4})(.{3})                           # Expiration
+    (\d{4})                                 # Expiration
+    (\d{3})                                 # Service code
     ([^?]*)                                 # Discretionary data
     \??                                     # End sentinel
     \z                                      # End of string
@@ -55,6 +56,7 @@ class Plastic
       self.given_name = matched[4]
       self.title = matched[5]
       self.expiration = matched[6]
+      self.service_code = matched[7]
     end
   end
 

@@ -6,8 +6,10 @@ describe Plastic do
   end
 
   [
-    :pan, :expiration, :surname, :given_name, :title, :cvv2,
-    :track_1, :track_2, :track_name,
+    :pan, :expiration,
+    :track_name, :surname, :given_name, :title,
+    :service_code, :cvv2,
+    :track_1, :track_2,
   ].each do |var|
     it "has accessor :#{var} and :#{var}=" do
       @instance.should respond_to(:"#{var}")

@@ -1,6 +1,8 @@
 class Plastic
-  attr_accessor :pan, :expiration, :surname, :given_name, :title, :cvv2
-  attr_accessor :track_1, :track_2, :track_name
+  attr_accessor :pan, :expiration
+  attr_accessor :track_name, :surname, :given_name, :title
+  attr_accessor :service_code, :cvv2
+  attr_accessor :track_1, :track_2
 
   def initialize(attributes={})
     if attributes.instance_of? Hash
