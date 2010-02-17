@@ -1,8 +1,6 @@
 require 'rubygems'
 require 'rake'
 require 'spec/rake/spectask'
-require 'spec/expectations'
-require 'rake/rdoctask'
 
 require File.join(File.dirname(__FILE__), 'lib', 'plastic', 'version')
 
