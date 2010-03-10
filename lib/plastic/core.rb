@@ -7,6 +7,7 @@ class Plastic
   def initialize(attributes={})
     if attributes.instance_of? Hash
       self.update! attributes
+      parse_tracks!
     else
       parse_track! attributes
     end

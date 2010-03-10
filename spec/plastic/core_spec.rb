@@ -44,6 +44,14 @@ describe Plastic do
         @instance.should_receive(:update!).with(arg)
         @instance.send :initialize, arg
       end
+
+      it "parses the track data if given" do
+        instance = described_class.new(:track_1 => "%B123456789012345^Dorsey/Jack.Dr^1010123?")
+        instance.track_1.should == "%B123456789012345^Dorsey/Jack.Dr^1010123?"
+        instance.pan.should == "123456789012345"
+        instance.expiration.should == "1010"
+        instance.name.should == "Dr Jack Dorsey"
+      end
     end
 
     context "with a string argument" do
