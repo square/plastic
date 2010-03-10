@@ -5,16 +5,13 @@ describe Plastic do
     @instance = described_class.new
   end
 
-  [
-    [:number, :pan],
-    [:first_name, :given_name],
-    [:last_name, :surname],
-    [:verification_value, :cvv2],
-    [:track1, :track_1],
-    [:track2, :track_2],
-  ].each do |_alias, method|
+  Plastic::DUCK_TYPE_INTERFACE.each do |_alias, method|
     it "##{method} is aliased as ##{_alias}" do
       @instance.method(_alias).should == @instance.method(method)
+    end
+
+    it "##{method} is aliased as ##{_alias}" do
+      @instance.method("#{_alias}=").should == @instance.method("#{method}=")
     end
 
     it "##{method}? checks blankness of ##{_alias}" do

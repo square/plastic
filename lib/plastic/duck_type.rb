@@ -1,14 +1,19 @@
 class Plastic
   # ActiveMerchant::Billing::CreditCard
-  [
+  DUCK_TYPE_INTERFACE = [
     [:number, :pan],
     [:first_name, :given_name],
     [:last_name, :surname],
     [:verification_value, :cvv2],
+    [:security_code, :cvv2],
+    [:expiration_date, :expiration],
     [:track1, :track_1],
     [:track2, :track_2],
-  ].each do |_alias, method|
-    alias_method _alias, method
+  ]
+
+  DUCK_TYPE_INTERFACE.each do |_alias, attribute_name|
+    alias_method _alias, attribute_name
+    alias_method :"#{_alias}=", :"#{attribute_name}="
     define_method :"#{_alias}?", lambda { !value_is_blank?(send(_alias)) }
   end
 
@@ -18,15 +23,5 @@ class Plastic
 
   def month
     expiration.to_s[2..3]
-  end
-  
-  def value_is_blank?(value)
-    if value.respond_to?(:blank?)
-      value.blank?
-    elsif value.respond_to?(:empty?)
-      value.empty?
-    else
-      value.nil?
-    end
   end
 end

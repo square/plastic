@@ -22,4 +22,24 @@ class Plastic
   def name
     [title, given_name, surname].flatten.compact.join(" ").strip
   end
+
+  def valid?
+    value_is_present?(pan) && value_is_present?(expiration)
+  end
+
+  private
+
+  def value_is_present?(value)
+    !value_is_blank?(value)
+  end
+
+  def value_is_blank?(value)
+    if value.respond_to?(:blank?)
+      value.blank?
+    elsif value.respond_to?(:empty?)
+      value.empty?
+    else
+      value.nil?
+    end
+  end
 end

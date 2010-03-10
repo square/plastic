@@ -104,4 +104,24 @@ describe Plastic do
       end
     end
   end
+
+  describe "#valid?" do
+    before do
+      @plastic = Plastic.new(:pan => "SOME PAN", :expiration => "SOME EXPIRATION")
+    end
+
+    it "is valid if it has both a pan and an expiration" do
+      @plastic.should be_valid
+    end
+
+    it "is not valid if the pan is missing" do
+      @plastic.pan = nil
+      @plastic.should_not be_valid
+    end
+
+    it "is not valid if the expiration is missing" do
+      @plastic.expiration = nil
+      @plastic.should_not be_valid
+    end
+  end
 end
