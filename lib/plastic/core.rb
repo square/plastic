@@ -5,7 +5,7 @@ class Plastic
   attr_accessor :track_1, :track_2
 
   def initialize(attributes={})
-    if attributes.instance_of? Hash
+    if attributes.kind_of? Hash
       self.update! attributes
       parse_tracks!
     else

@@ -1,5 +1,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
+class OtherHash < Hash
+end
+
 describe Plastic do
   before :each do
     @instance = described_class.new
@@ -87,6 +90,19 @@ describe Plastic do
       it "ignores parameters that do not correspond to a setter" do
         @instance.should_not respond_to(:foo=)
         expect { @instance.update! :foo => 97 }.to_not raise_error
+      end
+    end
+    
+    context "with a subclass of hash" do
+      before do
+        @other_hash = OtherHash.new
+        @other_hash[:pan] = "bar"
+        @other_hash.should be_kind_of(Hash)
+      end
+
+      it "assigns the passed keys" do
+        @instance.update! @other_hash
+        @instance.pan.should == "bar"
       end
     end
   end
