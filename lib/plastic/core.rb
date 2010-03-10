@@ -15,7 +15,8 @@ class Plastic
 
   def update!(attributes={})
     attributes.each do |key, value|
-      send :"#{key}=", value
+      setter_method_name = :"#{key}="
+      send(setter_method_name, value) if respond_to?(setter_method_name)
     end
   end
 

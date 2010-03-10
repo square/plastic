@@ -79,9 +79,14 @@ describe Plastic do
 
     context "with a hash argument" do
       it "assigns the passed keys" do
-        arg = {:foo => "bar"}
-        @instance.should_receive(:foo=).with("bar")
+        arg = {:pan => "bar"}
         @instance.update! arg
+        @instance.pan.should == "bar"
+      end
+
+      it "ignores parameters that do not correspond to a setter" do
+        @instance.should_not respond_to(:foo=)
+        expect { @instance.update! :foo => 97 }.to_not raise_error
       end
     end
   end
