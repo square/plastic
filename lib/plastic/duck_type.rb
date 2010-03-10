@@ -5,6 +5,7 @@ class Plastic
     [:first_name, :given_name],
     [:last_name, :surname],
     [:verification_value, :cvv2],
+    [:verification_value?, :cvv2],
     [:track1, :track_1],
     [:track2, :track_2],
   ].each do |_alias, method|
