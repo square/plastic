@@ -93,7 +93,7 @@ describe Plastic do
         expect { @instance.update! :foo => 97 }.to_not raise_error
       end
     end
-    
+
     context "with a subclass of hash" do
       before do
         @other_hash = OtherHash.new
