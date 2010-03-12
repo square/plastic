@@ -13,10 +13,11 @@ describe Plastic do
     :track_name, :surname, :given_name, :title,
     :service_code, :cvv2,
     :track_1, :track_2,
-  ].each do |var|
-    it "has accessor :#{var} and :#{var}=" do
-      @instance.should respond_to(:"#{var}")
-      @instance.should respond_to(:"#{var}=")
+    :expiration_month, :expiration_year
+  ].each do |accessor|
+    it "has accessor :#{accessor} and :#{accessor}=" do
+      @instance.should respond_to(:"#{accessor}")
+      @instance.should respond_to(:"#{accessor}=")
     end
   end
 
@@ -122,6 +123,21 @@ describe Plastic do
         @instance.given_name = given_name
         @instance.title = title
         @instance.name.should == name
+      end
+    end
+  end
+
+  describe "#expiration=" do
+    [
+      ["YYMM", 0,  0],
+      ["0000", 0,  0],
+      ["9901", 99, 1],
+      ["1312", 13, 12],
+    ].each do |expiration, year, month|
+      it "parses the expiration '#{expiration}' into year (#{year}) and month (#{month}) integers" do
+          @instance.expiration = expiration
+          @instance.expiration_year.should == year
+          @instance.expiration_month.should == month
       end
     end
   end
