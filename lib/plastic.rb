@@ -1,4 +1,5 @@
 require 'plastic/version'
 require 'plastic/core'
 require 'plastic/track'
+require 'plastic/validations'
 require 'plastic/duck_type'
