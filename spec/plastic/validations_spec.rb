@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Plastic, "validations" do
-  describe "valid_card_number_length?" do
+  describe "valid_pan_length?" do
     it "is true when card number is 12 or more digits" do
       extra_numbers = %w[11 234 5678 99999999].each do |n|
         Plastic.new(:pan => "0123456789#{n}").should be_valid_pan_length
@@ -14,7 +14,7 @@ describe Plastic, "validations" do
     end
   end
 
-  describe "valid_checksum?" do
+  describe "valid_pan_checksum?" do
     %w[
       5454545454545454
       5480020605154711
