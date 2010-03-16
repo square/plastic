@@ -119,4 +119,24 @@ describe Plastic, "validations" do
       Plastic.new(:expiration => expiration).should_not be_valid_expiration_year
     end
   end
+
+  describe "#valid_expiration?" do
+    before do
+      @card = Plastic.new(:expiration => "1312")
+    end
+
+    it "is true when #valid_expiration_year? and #valid_expiration_month? are true" do
+      @card.should be_valid_expiration
+    end
+
+    it "is false when #valid_expiration_year? is false" do
+      @card.should_receive(:valid_expiration_year?).and_return(false)
+      @card.should_not be_valid_expiration
+    end
+
+    it "is false when #valid_expiration_month? is false" do
+      @card.should_receive(:valid_expiration_month?).and_return(false)
+      @card.should_not be_valid_expiration
+    end
+  end
 end

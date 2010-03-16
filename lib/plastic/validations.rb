@@ -32,4 +32,8 @@ class Plastic
     this = Time.now.utc
     (this.year..this.year + 20).include?(DateTime.strptime(expiration_year.to_s, "%y").year)
   end
+
+  def valid_expiration?
+    valid_expiration_month? && valid_expiration_year?
+  end
 end
