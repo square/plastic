@@ -50,6 +50,26 @@ describe Plastic, "validations" do
     end
   end
 
+  describe "#valid_pan?" do
+    before do
+      @card = Plastic.new(:pan => "4111111111111111")
+    end
+
+    it "is true when #valid_pan_length? and #valid_pan_checksum? are true" do
+      @card.should be_valid_pan
+    end
+
+    it "is false when #valid_pan_length? is false" do
+      @card.should_receive(:valid_pan_length?).and_return(false)
+      @card.should_not be_valid_pan
+    end
+
+    it "is false when #valid_pan_checksum? is false" do
+      @card.should_receive(:valid_pan_checksum?).and_return(false)
+      @card.should_not be_valid_pan
+    end
+  end
+
   describe "#valid_expiration_month?" do
     it "is true when the month is any of 1-12" do
       (1..12).each do |month|

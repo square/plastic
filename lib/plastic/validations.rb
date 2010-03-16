@@ -20,6 +20,10 @@ class Plastic
     sum % 10 == 0
   end
 
+  def valid_pan?
+    valid_pan_length? && valid_pan_checksum?
+  end
+
   def valid_expiration_month?
     (1..12).include?(expiration_month.to_i)
   end
