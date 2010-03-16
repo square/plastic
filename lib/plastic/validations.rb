@@ -1,6 +1,22 @@
 require 'date'
 
 class Plastic
+  def valid_pan?
+    valid_pan_length? && valid_pan_checksum?
+  end
+
+  def valid_expiration?
+    return false unless valid_expiration_year? && valid_expiration_month?
+    this = Time.now.utc
+    if expiration_datetime_year == this.year
+      return (this.month..12).include?(expiration_month)
+    else
+      return true
+    end
+  end
+
+private
+
   def valid_pan_length?
     pan.to_s.length >= 12
   end
@@ -12,10 +28,6 @@ class Plastic
       checksum + ((odd = !odd) ? d : (d * 2 > 9 ? d * 2 - 9 : d * 2))
     end
     sum % 10 == 0
-  end
-
-  def valid_pan?
-    valid_pan_length? && valid_pan_checksum?
   end
 
   def valid_expiration_month?
@@ -30,4 +42,5 @@ class Plastic
   def expiration_datetime_year
     DateTime.strptime(expiration_year.to_s, "%y").year
   end
+
 end
