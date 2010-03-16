@@ -18,4 +18,36 @@ describe Plastic, "validations" do
       end
     end
   end
+
+  describe "#valid_expiration_year?" do
+    def format_expiration_year_as_track(year)
+      two_digit_year = year.to_s[-2..-1].to_i % 99
+      expiration = "%02dMM" % two_digit_year
+      expiration.should match(/^\d\dMM$/)
+      expiration
+    end
+
+    before do
+      @this = DateTime.now
+    end
+
+    it "is true when set to the current year and up to 20 years later" do
+      (@this.year..@this.year + 20).each do |year|
+        expiration = format_expiration_year_as_track(year)
+        Plastic.new(:expiration => expiration).should be_valid_expiration_year
+      end
+    end
+
+    it "is false when set to last year" do
+      invalid_year = DateTime.now.year - 1
+      expiration = format_expiration_year_as_track(invalid_year)
+      Plastic.new(:expiration => expiration).should_not be_valid_expiration_year
+    end
+
+    it "is false when set 21 years in the future" do
+      invalid_year = DateTime.now.year + 21
+      expiration = format_expiration_year_as_track(invalid_year)
+      Plastic.new(:expiration => expiration).should_not be_valid_expiration_year
+    end
+  end
 end
