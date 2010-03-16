@@ -1,6 +1,55 @@
 require 'spec_helper'
 
 describe Plastic, "validations" do
+  describe "valid_card_number_length?" do
+    it "is true when card number is 12 or more digits" do
+      extra_numbers = %w[11 234 5678 99999999].each do |n|
+        Plastic.new(:pan => "0123456789#{n}").should be_valid_pan_length
+      end
+    end
+
+    it "is false when card number is less than 12 digits" do
+      Plastic.new(:pan => "0123456789").should_not be_valid_pan_length
+      Plastic.new(:pan => "01234567890").should_not be_valid_pan_length
+    end
+  end
+
+  describe "valid_checksum?" do
+    %w[
+      5454545454545454
+      5480020605154711
+      3566002020190001
+      4111111111111111
+      4005765777003
+      371449635398456
+      6011000995504101
+      36438999910011
+      4055011111111111
+      5581111111111119
+    ].each do |pan|
+      it "is true with valid test PAN #{pan}" do
+        Plastic.new(:pan => pan).should be_valid_pan_checksum
+      end
+    end
+
+    %w[
+      5451666666666666
+      5480000000000000
+      3566333333333333
+      4222222222222222
+      4001111111111
+      371433333333333
+      6011444444444444
+      36435555555555
+      4055999999999999
+      5581777777777777
+    ].each do |pan|
+      it "is false with invalid PAN #{pan}" do
+        Plastic.new(:pan => pan).should_not be_valid_pan_checksum
+      end
+    end
+  end
+
   describe "#valid_expiration_month?" do
     it "is true when the month is any of 1-12" do
       (1..12).each do |month|
