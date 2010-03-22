@@ -18,10 +18,10 @@ class Plastic
   end
 
   def year
-    expiration.to_s[0..1]
+    expiration ? "%02d" % expiration_year : nil
   end
 
   def month
-    expiration.to_s[2..3]
+    expiration ? "%02d" % expiration_month : nil
   end
 end

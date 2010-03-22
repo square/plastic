@@ -19,6 +19,37 @@ describe Plastic do
     end
   end
 
-  # TODO: spec #year
-  # TODO: spec #month
+  describe "when expiration is set" do
+    before do
+      @instance.expiration = "1501"
+    end
+
+    describe "#year" do
+      it "returns the two digit year as a string" do
+        @instance.expiration_year.should == 15
+        @instance.year.should == "15"
+      end
+    end
+
+    describe "#month" do
+      it "returns the two digit month as a string" do
+        @instance.expiration_month.should == 1
+        @instance.month.should == "01"
+      end
+    end
+  end
+
+  describe "when expiration is not set" do
+    describe "#year" do
+      it "returns nil" do
+        @instance.year.should be_nil
+      end
+    end
+
+    describe "#month" do
+      it "returns nil" do
+        @instance.month.should be_nil
+      end
+    end
+  end
 end
