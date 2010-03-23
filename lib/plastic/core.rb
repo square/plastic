@@ -3,7 +3,6 @@ class Plastic
   attr_accessor :track_name, :surname, :given_name, :title
   attr_accessor :service_code, :cvv2
   attr_accessor :track_1, :track_2
-  attr_accessor :expiration_month, :expiration_year
 
   def initialize(attributes={})
     if attributes.kind_of? Hash

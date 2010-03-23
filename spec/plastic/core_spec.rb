@@ -13,7 +13,6 @@ describe Plastic do
     :track_name, :surname, :given_name, :title,
     :service_code, :cvv2,
     :track_1, :track_2,
-    :expiration_month, :expiration_year
   ].each do |accessor|
     it "has accessor :#{accessor} and :#{accessor}=" do
       @instance.should respond_to(:"#{accessor}")
