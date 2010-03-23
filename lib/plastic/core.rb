@@ -26,16 +26,30 @@ class Plastic
   end
 
   def expiration=(yymm)
-    @expiration = yymm.to_s
-    self.expiration_year = expiration[0..1].to_i
-    self.expiration_month = expiration[2..3].to_i
+    @expiration = yymm.to_s[0..3]
+  end
+
+  def expiration_year
+    DateTime.strptime(expiration_yy, "%y").year
+  end
+
+  def expiration_month
+    expiration_mm.to_i
   end
 
   def valid?
     value_is_present?(pan) && value_is_present?(expiration)
   end
 
-  private
+private
+
+  def expiration_yy
+    @expiration.to_s[0..1]
+  end
+
+  def expiration_mm
+    @expiration.to_s[2..3]
+  end
 
   def value_is_present?(value)
     !value_is_blank?(value)
@@ -50,4 +64,5 @@ class Plastic
       value.nil?
     end
   end
+
 end

@@ -127,18 +127,28 @@ describe Plastic do
     end
   end
 
-  describe "#expiration=" do
-    [
-      ["YYMM", 0,  0],
-      ["0000", 0,  0],
-      ["9901", 99, 1],
-      ["1312", 13, 12],
-    ].each do |expiration, year, month|
-      it "parses the expiration '#{expiration}' into year (#{year}) and month (#{month}) integers" do
-          @instance.expiration = expiration
-          @instance.expiration_year.should == year
-          @instance.expiration_month.should == month
+  describe "#expiration_year" do
+    it "returns a year 2000s when two digit expiration is in the range 00-68, inclusive" do
+      (0..68).each do |y|
+        yy = "%02d" % y
+        Plastic.new(:expiration => "#{yy}01").expiration_year.should == 2000 + y
       end
+    end
+
+    it "returns a year in 1900s when when two digit expiration is in the range 69-99, inclusive" do
+      (69..99).each do |y|
+        yy = "%02d" % y
+        Plastic.new(:expiration => "#{yy}01").expiration_year.should == 1900 + y
+      end
+    end
+  end
+
+  describe "expiration_month" do
+    it "returns an integer month" do
+      @instance.expiration = "9901"
+      @instance.expiration_month.should == 1
+      @instance.expiration = "9912"
+      @instance.expiration_month.should == 12
     end
   end
 

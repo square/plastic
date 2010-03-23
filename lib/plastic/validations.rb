@@ -8,9 +8,9 @@ class Plastic
   def valid_expiration?
     return false unless valid_expiration_year? && valid_expiration_month?
     this = Time.now.utc
-    if this.year == expiration_datetime_year
+    if this.year == expiration_year
       (this.month..12).include?(expiration_month)
-    elsif expiration_datetime_year > this.year
+    elsif expiration_year > this.year
       true
     else
       false
@@ -33,16 +33,11 @@ private
   end
 
   def valid_expiration_month?
-    (1..12).include?(expiration_month.to_i)
+    (1..12).include?(expiration_month)
   end
 
   def valid_expiration_year?
     this = Time.now.utc
-    (this.year..this.year + 20).include?(expiration_datetime_year)
+    (this.year..this.year + 20).include?(expiration_year)
   end
-
-  def expiration_datetime_year
-    DateTime.strptime(expiration_year.to_s, "%y").year
-  end
-
 end

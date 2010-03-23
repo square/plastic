@@ -26,7 +26,7 @@ describe Plastic do
 
     describe "#year" do
       it "returns the two digit year as a string" do
-        @instance.expiration_year.should == 15
+        @instance.expiration_year.should == 2015
         @instance.year.should == "15"
       end
     end
