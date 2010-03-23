@@ -18,7 +18,7 @@ class Plastic
   end
 
   def year
-    expiration ? "%02d" % expiration_year : nil
+    expiration ? DateTime.new(expiration_year).strftime("%y") : nil
   end
 
   def month
