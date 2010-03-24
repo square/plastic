@@ -14,14 +14,14 @@ class Plastic
   DUCK_TYPE_INTERFACE.each do |_alias, attribute_name|
     alias_method _alias, attribute_name
     alias_method :"#{_alias}=", :"#{attribute_name}="
-    define_method :"#{_alias}?", lambda { !value_is_blank?(send(_alias)) }
+    define_method :"#{_alias}?", lambda { value_is_present?(send(_alias)) }
   end
 
   def year
-    expiration.to_s[0..1]
+    expiration ? DateTime.new(expiration_year).strftime("%y") : nil
   end
 
   def month
-    expiration.to_s[2..3]
+    expiration ? "%02d" % expiration_month : nil
   end
 end

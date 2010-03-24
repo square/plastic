@@ -24,11 +24,31 @@ class Plastic
     [title, given_name, surname].flatten.compact.join(" ").strip
   end
 
-  def valid?
-    value_is_present?(pan) && value_is_present?(expiration)
+  def expiration=(yymm)
+    @expiration = yymm.to_s[0..3]
   end
 
-  private
+  def expiration_year
+    DateTime.strptime(expiration_yy, "%y").year
+  end
+
+  def expiration_month
+    expiration_mm.to_i
+  end
+
+  def valid?
+    value_is_present?(pan) && value_is_present?(expiration) && valid_pan? && valid_expiration?
+  end
+
+private
+
+  def expiration_yy
+    @expiration.to_s[0..1]
+  end
+
+  def expiration_mm
+    @expiration.to_s[2..3]
+  end
 
   def value_is_present?(value)
     !value_is_blank?(value)
@@ -43,4 +63,5 @@ class Plastic
       value.nil?
     end
   end
+
 end

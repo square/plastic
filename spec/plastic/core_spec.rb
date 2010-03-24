@@ -13,10 +13,10 @@ describe Plastic do
     :track_name, :surname, :given_name, :title,
     :service_code, :cvv2,
     :track_1, :track_2,
-  ].each do |var|
-    it "has accessor :#{var} and :#{var}=" do
-      @instance.should respond_to(:"#{var}")
-      @instance.should respond_to(:"#{var}=")
+  ].each do |accessor|
+    it "has accessor :#{accessor} and :#{accessor}=" do
+      @instance.should respond_to(:"#{accessor}")
+      @instance.should respond_to(:"#{accessor}=")
     end
   end
 
@@ -92,7 +92,7 @@ describe Plastic do
         expect { @instance.update! :foo => 97 }.to_not raise_error
       end
     end
-    
+
     context "with a subclass of hash" do
       before do
         @other_hash = OtherHash.new
@@ -126,12 +126,37 @@ describe Plastic do
     end
   end
 
-  describe "#valid?" do
-    before do
-      @plastic = Plastic.new(:pan => "SOME PAN", :expiration => "SOME EXPIRATION")
+  describe "#expiration_year" do
+    it "returns a year 2000s when two digit expiration is in the range 00-68, inclusive" do
+      (0..68).each do |y|
+        yy = "%02d" % y
+        Plastic.new(:expiration => "#{yy}01").expiration_year.should == 2000 + y
+      end
     end
 
-    it "is valid if it has both a pan and an expiration" do
+    it "returns a year in 1900s when when two digit expiration is in the range 69-99, inclusive" do
+      (69..99).each do |y|
+        yy = "%02d" % y
+        Plastic.new(:expiration => "#{yy}01").expiration_year.should == 1900 + y
+      end
+    end
+  end
+
+  describe "expiration_month" do
+    it "returns an integer month" do
+      @instance.expiration = "9901"
+      @instance.expiration_month.should == 1
+      @instance.expiration = "9912"
+      @instance.expiration_month.should == 12
+    end
+  end
+
+  describe "#valid?" do
+    before do
+      @plastic = Plastic.new(:pan => "5480020605154711", :expiration => "1501")
+    end
+
+    it "is valid if it has both a valid pan and an expiration" do
       @plastic.should be_valid
     end
 
@@ -142,6 +167,16 @@ describe Plastic do
 
     it "is not valid if the expiration is missing" do
       @plastic.expiration = nil
+      @plastic.should_not be_valid
+    end
+
+    it "is not valid if the card is expired" do
+      @plastic.expiration = "0901"
+      @plastic.should_not be_valid
+    end
+
+    it "is not valid if the pan does not pass its checksum" do
+      @plastic.pan = "4001111111111"
       @plastic.should_not be_valid
     end
   end
