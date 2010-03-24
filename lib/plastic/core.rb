@@ -37,7 +37,7 @@ class Plastic
   end
 
   def valid?
-    value_is_present?(pan) && value_is_present?(expiration)
+    value_is_present?(pan) && value_is_present?(expiration) && valid_pan? && valid_expiration?
   end
 
 private
