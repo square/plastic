@@ -1,4 +1,13 @@
-=== Version 0.1.0 (git)
+=== Version 0.2.0 (git)
+
+Updated with additional validations and brand support.
+
+* PAN validations.
+* More robust expiration year / month accessors.
+* Support American Express PAN format with spaces.
+
+
+=== Version 0.1.0
 
 This is the first preview release of Plastic.
 

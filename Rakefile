@@ -10,9 +10,9 @@ begin
     gem.name = "plastic"
     gem.summary = "Credit card library for Ruby."
     gem.description = "Handle credit, debit, bank and other cards."
-    gem.email = "randy@squareup.com"
+    gem.email = "github@squareup.com"
     gem.homepage = "http://github.com/square/plastic"
-    gem.authors = ["Randy Reddig"]
+    gem.authors = ["Randy Reddig", "Cameron Walters", "Matthew O'Connor", "Damon McCormick"]
     gem.version = Plastic::VERSION::STRING
   end
 rescue LoadError
