@@ -28,7 +28,7 @@ class Plastic
     \A                                      # Start of string
     %?                                      # Start sentinel
     [bB]                                    # Format code
-    (\d{12,19})                             # PAN
+    (\d{12,19}|\d{4}\ \d{6}\ \d{5})         # PAN
     \^                                      # Field separator
     (                                       # Name field
       (?=[^^]{2,26})                        # Lookahead assertion
@@ -50,7 +50,7 @@ class Plastic
   def parse_track_1!(value=nil)
     value ||= track_1
     if matched = self.class.track_1_parser.match(value.to_s)
-      self.pan = matched[1]
+      self.pan = matched[1].delete(' ')
       self.track_name = matched[2]
       self.surname = matched[3]
       self.given_name = matched[4]

@@ -104,6 +104,7 @@ describe Plastic do
     ["%B123456789012345^Dorsey/Jack^1010123?", "123456789012345", "1010", "Jack Dorsey"],
     ["B123456789012345^Dorsey/Jack.Dr^1010123", "123456789012345", "1010", "Dr Jack Dorsey"],
     ["%B123456789012345^Dorsey/Jack.Dr^1010123?", "123456789012345", "1010", "Dr Jack Dorsey"],
+    ["%B1234 567890 12345^Dorsey/Jack.Dr^1010123?", "123456789012345", "1010", "Dr Jack Dorsey"],
 
     # Track 2
     ["", nil, nil, ""],
