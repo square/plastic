@@ -4,8 +4,8 @@ class OtherHash < Hash
 end
 
 describe Plastic do
-  before :each do
-    @instance = described_class.new
+  before do
+    @instance = Plastic.new
   end
 
   [
