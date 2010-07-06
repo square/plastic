@@ -1,4 +1,6 @@
 class Plastic
+  BRANDS = [:visa, :mastercard, :american_express, :discover]
+
   attr_accessor :pan, :expiration
   attr_accessor :track_name, :surname, :given_name, :title
   attr_accessor :service_code, :cvv2

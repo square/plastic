@@ -151,6 +151,12 @@ describe Plastic do
     end
   end
 
+  describe "BRANDS constant" do
+    it "returns a list of the brands as symbols" do
+      Plastic::BRANDS.should == [:visa, :mastercard, :american_express, :discover]
+    end
+  end
+
   describe "#valid?" do
     before do
       @plastic = Plastic.new(:pan => "5480020605154711", :expiration => "1501")
