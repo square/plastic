@@ -151,6 +151,39 @@ describe Plastic do
     end
   end
 
+  describe "#brand" do
+    it "recognizes Visa cards" do
+      Plastic.new(:pan => "4111111111111111").brand.should == :visa
+    end
+
+    it "recognizes MasterCard cards" do
+      Plastic.new(:pan => "5100000000000000").brand.should == :mastercard
+      Plastic.new(:pan => "5200000000000000").brand.should == :mastercard
+      Plastic.new(:pan => "5300000000000000").brand.should == :mastercard
+      Plastic.new(:pan => "5400000000000000").brand.should == :mastercard
+      Plastic.new(:pan => "5500000000000000").brand.should == :mastercard
+      Plastic.new(:pan => "6771890000000000").brand.should == :mastercard # TODO: confirm that 6771- is really MasterCard
+    end
+
+    it "returns nil for bogus pseudo-MasterCard cards" do
+      Plastic.new(:pan => "5000000000000000").brand.should be_nil
+      Plastic.new(:pan => "5600000000000000").brand.should be_nil
+      Plastic.new(:pan => "5700000000000000").brand.should be_nil
+      Plastic.new(:pan => "5800000000000000").brand.should be_nil
+      Plastic.new(:pan => "5900000000000000").brand.should be_nil
+    end
+
+    it "recognizes Discover cards" do
+      Plastic.new(:pan => "6011000000000000").brand.should == :discover
+      Plastic.new(:pan => "6500000000000000").brand.should == :discover
+    end
+
+    it "recognizes American Express cards" do
+      Plastic.new(:pan => "340000000000000").brand.should == :american_express
+      Plastic.new(:pan => "370000000000000").brand.should == :american_express
+    end
+  end
+
   describe "BRANDS constant" do
     it "returns a list of the brands as symbols" do
       Plastic::BRANDS.should == [:visa, :mastercard, :american_express, :discover]

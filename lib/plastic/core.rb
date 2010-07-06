@@ -38,6 +38,17 @@ class Plastic
     expiration_mm.to_i
   end
 
+  def brand
+    case pan
+    when /^4/      then :visa
+    when /^5[1-5]/ then :mastercard
+    when /^677189/ then :mastercard
+    when /^6011/   then :discover
+    when /^65/     then :discover
+    when /^3[47]/  then :american_express
+    end
+  end
+
   def valid?
     value_is_present?(pan) && value_is_present?(expiration) && valid_pan? && valid_expiration?
   end
