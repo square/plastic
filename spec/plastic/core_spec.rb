@@ -155,21 +155,41 @@ describe Plastic do
       Plastic.new(:pan => "4111111111111111").brand.should == :visa
     end
 
+    it "does not recognize pseudo-Visa cards with 13, 14, 15, or 17 digits" do
+      # Visa once used 13-digit PANs, but these accounts have all been migrated
+      # to 16-digit PANs. The old numbers are not valid for new transactions.
+      Plastic.new(:pan => "4111111111111").brand.should_not == :visa
+      Plastic.new(:pan => "41111111111111").brand.should_not == :visa
+      Plastic.new(:pan => "411111111111111").brand.should_not == :visa
+      Plastic.new(:pan => "41111111111111111").brand.should_not == :visa
+    end
+
     it "recognizes MasterCard cards" do
       Plastic.new(:pan => "5100000000000000").brand.should == :mastercard
       Plastic.new(:pan => "5200000000000000").brand.should == :mastercard
       Plastic.new(:pan => "5300000000000000").brand.should == :mastercard
       Plastic.new(:pan => "5400000000000000").brand.should == :mastercard
       Plastic.new(:pan => "5500000000000000").brand.should == :mastercard
-      Plastic.new(:pan => "6771890000000000").brand.should == :mastercard # TODO: confirm that 6771- is really MasterCard
+      # TODO: confirm that 677189- is really MasterCard
+      Plastic.new(:pan => "6771890000000000").brand.should == :mastercard
     end
 
-    it "returns nil for bogus pseudo-MasterCard cards" do
-      Plastic.new(:pan => "5000000000000000").brand.should be_nil
-      Plastic.new(:pan => "5600000000000000").brand.should be_nil
-      Plastic.new(:pan => "5700000000000000").brand.should be_nil
-      Plastic.new(:pan => "5800000000000000").brand.should be_nil
-      Plastic.new(:pan => "5900000000000000").brand.should be_nil
+    it "does not recognize pseudo-MasterCards with invalid IINs" do
+      Plastic.new(:pan => "5000000000000000").brand.should_not == :mastercard
+      Plastic.new(:pan => "5600000000000000").brand.should_not == :mastercard
+      Plastic.new(:pan => "5700000000000000").brand.should_not == :mastercard
+      Plastic.new(:pan => "5800000000000000").brand.should_not == :mastercard
+      Plastic.new(:pan => "5900000000000000").brand.should_not == :mastercard
+    end
+
+    it "does not recognize pseudo-MasterCards with 15 or 17 digits" do
+      Plastic.new(:pan => "510000000000000").brand.should_not == :mastercard
+      Plastic.new(:pan => "520000000000000").brand.should_not == :mastercard
+      Plastic.new(:pan => "53000000000000000").brand.should_not == :mastercard
+      Plastic.new(:pan => "54000000000000000").brand.should_not == :mastercard
+      # TODO: confirm that 677189- is really MasterCard
+      Plastic.new(:pan => "677189000000000").brand.should_not == :mastercard
+      Plastic.new(:pan => "67718900000000000").brand.should_not == :mastercard
     end
 
     it "recognizes Discover cards" do

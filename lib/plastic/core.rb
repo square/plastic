@@ -40,9 +40,9 @@ class Plastic
 
   def brand
     case pan
-    when /^4/               then :visa
-    when /^5[1-5]/          then :mastercard
-    when /^677189/          then :mastercard
+    when /^4\d{15}$/        then :visa
+    when /^5[1-5]\d{14}$/   then :mastercard
+    when /^677189\d{10}$/   then :mastercard
     when /^6011/            then :discover
     when /^64[4-9]/         then :discover
     when /^65/              then :discover
