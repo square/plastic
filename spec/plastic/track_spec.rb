@@ -7,7 +7,7 @@ describe Plastic do
     it "calls #parse_track_2, then #parse_track_1" do
       subject.should_receive(:parse_track_2!).with().once
       subject.should_receive(:parse_track_1!).with().once.and_raise(StandardError)
-      lambda { subject.parse_tracks! }.should raise_error(StandardError)
+      expect { subject.parse_tracks! }.to raise_error(StandardError)
     end
   end
 
@@ -16,7 +16,7 @@ describe Plastic do
       arg = "foo"
       subject.should_receive(:parse_track_2!).with(arg).once
       subject.should_receive(:parse_track_1!).with(arg).once.and_raise(StandardError)
-      lambda { subject.parse_track! arg }.should raise_error(StandardError)
+      expect { subject.parse_track! arg }.to raise_error(StandardError)
     end
   end
 

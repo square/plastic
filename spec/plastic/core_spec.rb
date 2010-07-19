@@ -75,7 +75,7 @@ describe Plastic do
 
     context "with a nil argument" do
       it "raises an exception" do
-        lambda { subject.update! nil }.should raise_error(NoMethodError)
+        expect { subject.update! nil }.to raise_error(NoMethodError)
       end
     end
 
