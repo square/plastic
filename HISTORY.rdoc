@@ -1,4 +1,9 @@
-=== Version 0.2.0 2010-07-18
+=== Version 0.2.1 2010-07-18
+
+Initial public release.
+
+
+=== Version 0.2.0
 
 Updated with additional validations and brand support.
 
