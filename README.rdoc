@@ -4,7 +4,7 @@ Credit card “plastic” library for Ruby. Parses track 1, track 2 and individu
 
 == Prerequisites
 
-* Money and a FICA score > 600.
+* Money and a FICO score > 600.
 
 == Testing
 
