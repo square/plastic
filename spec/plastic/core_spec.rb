@@ -230,6 +230,13 @@ describe Plastic do
       Plastic.new(:pan => "370000000000000").brand.should == :american_express
     end
 
+    it "does not recognize pseudo-American Express cards with 14 or 16 digits" do
+      Plastic.new(:pan => "34000000000000").brand.should_not == :american_express
+      Plastic.new(:pan => "37000000000000").brand.should_not == :american_express
+      Plastic.new(:pan => "3400000000000000").brand.should_not == :american_express
+      Plastic.new(:pan => "3700000000000000").brand.should_not == :american_express
+    end
+
     it "recognizes JCB cards" do
       Plastic.new(:pan => "3540123456789012").brand.should == :jcb
       Plastic.new(:pan => "3528000000000000").brand.should == :jcb
