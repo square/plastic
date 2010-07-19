@@ -1,10 +1,10 @@
 = Plastic
 
-Credit card “plastic” library for Ruby.
+Credit card “plastic” library for Ruby. Parses track 1, track 2 and individual arguments. For ease of integration, Plastic duck-types an {ActiveMerchant}[http://www.activemerchant.org/] {CreditCard}[http://activemerchant.rubyforge.org/classes/ActiveMerchant/Billing/CreditCard.html] model.
 
 == Prerequisites
 
-* TBD
+* Money and a FICA score > 600.
 
 == Testing
 
@@ -13,4 +13,9 @@ Testing requires the RSpec gem:
 * {Rspec}[http://rspec.info/]
 
 To test, run:
-  `rake spec`
+  rake spec
+
+== License
+
+Copyright © 2010 Square, Inc.
+See LICENSE.txt in this directory.

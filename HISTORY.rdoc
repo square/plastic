@@ -1,14 +1,15 @@
-=== Version 0.2.0 (git)
+=== Version 0.2.0 2010-07-18
 
 Updated with additional validations and brand support.
 
 * PAN validations.
 * More robust expiration year / month accessors.
 * Support American Express PAN format with spaces.
+* Brand detection.
 
 
 === Version 0.1.0
 
-This is the first preview release of Plastic.
+Internal preview release of Plastic.
 
 * Basic gem + project framework.
