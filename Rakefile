@@ -38,3 +38,8 @@ end
 
 task :spec => :check_dependencies
 task :default => :spec
+
+desc "Remove trailing whitespace"
+task :whitespace do
+  sh %{find . -name '*.rb' -exec sed -i '' 's/ *$//g' {} \\;}
+end
