@@ -242,6 +242,15 @@ describe Plastic do
       Plastic.new(:pan => "3528000000000000").brand.should == :jcb
       Plastic.new(:pan => "3589990000000000").brand.should == :jcb
     end
+
+    it "does not recognize pseudo-JCB cards with 15 or 17 digits" do
+      Plastic.new(:pan => "354012345678901").brand.should_not == :jcb
+      Plastic.new(:pan => "352800000000000").brand.should_not == :jcb
+      Plastic.new(:pan => "358999000000000").brand.should_not == :jcb
+      Plastic.new(:pan => "35401234567890123").brand.should_not == :jcb
+      Plastic.new(:pan => "35280000000000000").brand.should_not == :jcb
+      Plastic.new(:pan => "35899900000000000").brand.should_not == :jcb
+    end
   end
 
   describe "BRANDS constant" do

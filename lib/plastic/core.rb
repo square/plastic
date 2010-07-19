@@ -47,7 +47,8 @@ class Plastic
     when /^64[4-9]\d{13}$/  then :discover
     when /^65\d{14}$/       then :discover
     when /^3[47]\d{13}$/    then :american_express
-    when /^35(28|29|[3-8])/ then :jcb
+    when /^352[8-9]\d{12}$/ then :jcb
+    when /^35[3-8]\d{13}$/  then :jcb
     end
   end
 
