@@ -174,6 +174,12 @@ describe Plastic do
 
     it "recognizes Discover cards" do
       Plastic.new(:pan => "6011000000000000").brand.should == :discover
+      Plastic.new(:pan => "6440000000000000").brand.should == :discover
+      Plastic.new(:pan => "6450000000000000").brand.should == :discover
+      Plastic.new(:pan => "6460000000000000").brand.should == :discover
+      Plastic.new(:pan => "6470000000000000").brand.should == :discover
+      Plastic.new(:pan => "6480000000000000").brand.should == :discover
+      Plastic.new(:pan => "6490000000000000").brand.should == :discover
       Plastic.new(:pan => "6500000000000000").brand.should == :discover
     end
 

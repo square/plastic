@@ -44,6 +44,7 @@ class Plastic
     when /^5[1-5]/          then :mastercard
     when /^677189/          then :mastercard
     when /^6011/            then :discover
+    when /^64[4-9]/         then :discover
     when /^65/              then :discover
     when /^3[47]/           then :american_express
     when /^35(28|29|[3-8])/ then :jcb
