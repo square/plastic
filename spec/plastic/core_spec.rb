@@ -203,6 +203,28 @@ describe Plastic do
       Plastic.new(:pan => "6500000000000000").brand.should == :discover
     end
 
+    it "does not recognize pseudo-Discover cards with 15 digits" do
+      Plastic.new(:pan => "601100000000000").brand.should_not == :discover
+      Plastic.new(:pan => "644000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "645000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "646000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "647000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "648000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "649000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "650000000000000").brand.should_not == :discover
+    end
+
+    it "does not recognize pseudo-Discover cards with 17 digits" do
+      Plastic.new(:pan => "60110000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "64400000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "64500000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "64600000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "64700000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "64800000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "64900000000000000").brand.should_not == :discover
+      Plastic.new(:pan => "65000000000000000").brand.should_not == :discover
+    end
+
     it "recognizes American Express cards" do
       Plastic.new(:pan => "340000000000000").brand.should == :american_express
       Plastic.new(:pan => "370000000000000").brand.should == :american_express

@@ -43,9 +43,9 @@ class Plastic
     when /^4\d{15}$/        then :visa
     when /^5[1-5]\d{14}$/   then :mastercard
     when /^677189\d{10}$/   then :mastercard
-    when /^6011/            then :discover
-    when /^64[4-9]/         then :discover
-    when /^65/              then :discover
+    when /^6011\d{12}$/     then :discover
+    when /^64[4-9]\d{13}$/  then :discover
+    when /^65\d{14}$/       then :discover
     when /^3[47]/           then :american_express
     when /^35(28|29|[3-8])/ then :jcb
     end
