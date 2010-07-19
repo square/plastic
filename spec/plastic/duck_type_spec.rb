@@ -1,9 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Plastic do
-  before :each do
-    @instance = described_class.new
-  end
+  subject { described_class.new }
 
   [
     [:number, :pan],
@@ -16,34 +14,34 @@ describe Plastic do
     [:track2, :track_2],
   ].each do |_alias, method|
     it "##{method} is aliased as ##{_alias}" do
-      @instance.method(_alias).should == @instance.method(method)
+      subject.method(_alias).should == subject.method(method)
     end
 
     it "##{method} is aliased as ##{_alias}" do
-      @instance.method("#{_alias}=").should == @instance.method("#{method}=")
+      subject.method("#{_alias}=").should == subject.method("#{method}=")
     end
 
     it "##{method}? checks blankness of ##{_alias}" do
-      @instance.send(:"#{_alias}?").should be_false
+      subject.send(:"#{_alias}?").should be_false
     end
   end
 
   describe "when expiration is set" do
     before do
-      @instance.expiration = "1501"
+      subject.expiration = "1501"
     end
 
     describe "#year" do
       it "returns the two digit year as a string" do
-        @instance.expiration_year.should == 2015
-        @instance.year.should == "15"
+        subject.expiration_year.should == 2015
+        subject.year.should == "15"
       end
     end
 
     describe "#month" do
       it "returns the two digit month as a string" do
-        @instance.expiration_month.should == 1
-        @instance.month.should == "01"
+        subject.expiration_month.should == 1
+        subject.month.should == "01"
       end
     end
   end
@@ -51,13 +49,13 @@ describe Plastic do
   describe "when expiration is not set" do
     describe "#year" do
       it "returns nil" do
-        @instance.year.should be_nil
+        subject.year.should be_nil
       end
     end
 
     describe "#month" do
       it "returns nil" do
-        @instance.month.should be_nil
+        subject.month.should be_nil
       end
     end
   end

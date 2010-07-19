@@ -2,36 +2,32 @@ require 'spec_helper'
 
 describe Plastic, "validations" do
   describe "#valid_pan?" do
-    before do
-      @card = Plastic.new(:pan => "4111111111111111")
-    end
+    subject { Plastic.new(:pan => "4111111111111111") }
 
     it "is true when #valid_pan_length? and #valid_pan_checksum? are true" do
-      @card.should be_valid_pan
+      subject.should be_valid_pan
     end
 
     it "is false when #valid_pan_length? is false" do
-      @card.should_receive(:valid_pan_length?).and_return(false)
-      @card.should_not be_valid_pan
+      subject.should_receive(:valid_pan_length?).and_return(false)
+      subject.should_not be_valid_pan
     end
 
     it "is false when #valid_pan_checksum? is false" do
-      @card.should_receive(:valid_pan_checksum?).and_return(false)
-      @card.should_not be_valid_pan
+      subject.should_receive(:valid_pan_checksum?).and_return(false)
+      subject.should_not be_valid_pan
     end
   end
 
   describe "#valid_expiration?" do
-    before do
-      @card = Plastic.new(:expiration => "1312")
-    end
+    subject { Plastic.new(:expiration => "1312") }
 
     describe "when expiration_year is next year" do
       it "is true for all values of expiration_month" do
         next_year = (DateTime.now.year + 1).to_s[-2..-1]
         (1..12).each do |month|
-          card = Plastic.new(:expiration => "%02d%02d" % [next_year, month])
-          card.should be_valid_expiration
+          subject.expiration = "%02d%02d" % [next_year, month]
+          subject.should be_valid_expiration
         end
       end
     end
@@ -43,28 +39,28 @@ describe Plastic, "validations" do
 
       it "is true when expiration_month is this month and after" do
         (DateTime.now.month..12).each do |month|
-          card = Plastic.new(:expiration => "%02d%02d" % [@this_year, month])
-          card.should be_valid_expiration
+          subject.expiration = "%02d%02d" % [@this_year, month]
+          subject.should be_valid_expiration
         end
       end
 
       it "is false when expiration_month is earlier than this month" do
         this_year = DateTime.now.year.to_s[-2..-1]
         (1...DateTime.now.month).each do |month|
-          card = Plastic.new(:expiration => "%02d%02d" % [@this_year, month])
-          card.should_not be_valid_expiration
+          subject.expiration = "%02d%02d" % [@this_year, month]
+          subject.should_not be_valid_expiration
         end
       end
     end
 
     it "is false when #valid_expiration_year? is false" do
-      @card.should_receive(:valid_expiration_year?).and_return(false)
-      @card.should_not be_valid_expiration
+      subject.should_receive(:valid_expiration_year?).and_return(false)
+      subject.should_not be_valid_expiration
     end
 
     it "is false when #valid_expiration_month? is false" do
-      @card.should_receive(:valid_expiration_month?).and_return(false)
-      @card.should_not be_valid_expiration
+      subject.should_receive(:valid_expiration_month?).and_return(false)
+      subject.should_not be_valid_expiration
     end
   end
 

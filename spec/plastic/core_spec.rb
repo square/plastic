@@ -4,9 +4,7 @@ class OtherHash < Hash
 end
 
 describe Plastic do
-  before do
-    @instance = Plastic.new
-  end
+  subject { described_class.new }
 
   [
     :pan, :expiration,
@@ -15,53 +13,54 @@ describe Plastic do
     :track_1, :track_2,
   ].each do |accessor|
     it "has accessor :#{accessor} and :#{accessor}=" do
-      @instance.should respond_to(:"#{accessor}")
-      @instance.should respond_to(:"#{accessor}=")
+      subject.should respond_to(:"#{accessor}")
+      subject.should respond_to(:"#{accessor}=")
     end
   end
 
   describe "new" do
     it "returns an instance of #{described_class.name}" do
-      @instance.should be_instance_of(described_class)
+      subject.should be_instance_of(described_class)
     end
   end
 
   describe "#initialize" do
     context "with no arguments" do
       it "calls update! with an empty hash" do
-        @instance.should_receive(:update!).with({})
-        @instance.send :initialize
+        subject.should_receive(:update!).with({})
+        subject.send :initialize
       end
     end
 
     context "with a nil argument" do
       it "calls parse_track!" do
-        @instance.should_receive(:parse_track!).with(nil)
-        @instance.send :initialize, nil
+        subject.should_receive(:parse_track!).with(nil)
+        subject.send :initialize, nil
       end
     end
 
     context "with a hash argument" do
+      subject { described_class.new(:track_1 => "%B123456789012345^Dorsey/Jack.Dr^1010123?") }
+      
       it "calls update! with the hash argument" do
         arg = {:foo => "bar"}
-        @instance.should_receive(:update!).with(arg)
-        @instance.send :initialize, arg
+        subject.should_receive(:update!).with(arg)
+        subject.send :initialize, arg
       end
 
       it "parses the track data if given" do
-        instance = described_class.new(:track_1 => "%B123456789012345^Dorsey/Jack.Dr^1010123?")
-        instance.track_1.should == "%B123456789012345^Dorsey/Jack.Dr^1010123?"
-        instance.pan.should == "123456789012345"
-        instance.expiration.should == "1010"
-        instance.name.should == "Dr Jack Dorsey"
+        subject.track_1.should == "%B123456789012345^Dorsey/Jack.Dr^1010123?"
+        subject.pan.should == "123456789012345"
+        subject.expiration.should == "1010"
+        subject.name.should == "Dr Jack Dorsey"
       end
     end
 
     context "with a string argument" do
       it "calls parse_track! with the string argument" do
         arg = "foo=bar"
-        @instance.should_receive(:parse_track!).with(arg)
-        @instance.send :initialize, arg
+        subject.should_receive(:parse_track!).with(arg)
+        subject.send :initialize, arg
       end
     end
   end
@@ -69,27 +68,27 @@ describe Plastic do
   describe "#update!" do
     context "with no arguments" do
       it "calls update! with an empty hash" do
-        @instance.should_not_receive(:send)
-        @instance.update!
+        subject.should_not_receive(:send)
+        subject.update!
       end
     end
 
     context "with a nil argument" do
       it "raises an exception" do
-        lambda { @instance.update! nil }.should raise_error(NoMethodError)
+        lambda { subject.update! nil }.should raise_error(NoMethodError)
       end
     end
 
     context "with a hash argument" do
       it "assigns the passed keys" do
         arg = {:pan => "bar"}
-        @instance.update! arg
-        @instance.pan.should == "bar"
+        subject.update! arg
+        subject.pan.should == "bar"
       end
 
       it "ignores parameters that do not correspond to a setter" do
-        @instance.should_not respond_to(:foo=)
-        expect { @instance.update! :foo => 97 }.to_not raise_error
+        subject.should_not respond_to(:foo=)
+        expect { subject.update! :foo => 97 }.to_not raise_error
       end
     end
 
@@ -101,15 +100,15 @@ describe Plastic do
       end
 
       it "assigns the passed keys" do
-        @instance.update! @other_hash
-        @instance.pan.should == "bar"
+        subject.update! @other_hash
+        subject.pan.should == "bar"
       end
     end
   end
 
   describe "#name" do
     it "returns a string" do
-      @instance.name.should be_instance_of(String)
+      subject.name.should be_instance_of(String)
     end
 
     [
@@ -118,10 +117,10 @@ describe Plastic do
       ["Howser", "Doogie", "Dr", "Dr Doogie Howser"],
     ].each do |surname, given_name, title, name|
       it "returns #{name} for the given input" do
-        @instance.surname = surname
-        @instance.given_name = given_name
-        @instance.title = title
-        @instance.name.should == name
+        subject.surname = surname
+        subject.given_name = given_name
+        subject.title = title
+        subject.name.should == name
       end
     end
   end
@@ -144,10 +143,10 @@ describe Plastic do
 
   describe "expiration_month" do
     it "returns an integer month" do
-      @instance.expiration = "9901"
-      @instance.expiration_month.should == 1
-      @instance.expiration = "9912"
-      @instance.expiration_month.should == 12
+      subject.expiration = "9901"
+      subject.expiration_month.should == 1
+      subject.expiration = "9912"
+      subject.expiration_month.should == 12
     end
   end
 

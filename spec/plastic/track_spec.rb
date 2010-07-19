@@ -1,24 +1,22 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Plastic do
-  before :each do
-    @instance = described_class.new
-  end
+  subject { described_class.new }
 
   describe "#parse_tracks!" do
     it "calls #parse_track_2, then #parse_track_1" do
-      @instance.should_receive(:parse_track_2!).with().once
-      @instance.should_receive(:parse_track_1!).with().once.and_raise(StandardError)
-      lambda { @instance.parse_tracks! }.should raise_error(StandardError)
+      subject.should_receive(:parse_track_2!).with().once
+      subject.should_receive(:parse_track_1!).with().once.and_raise(StandardError)
+      lambda { subject.parse_tracks! }.should raise_error(StandardError)
     end
   end
 
   describe "#parse_track!" do
     it "calls #parse_track_2, then #parse_track_1" do
       arg = "foo"
-      @instance.should_receive(:parse_track_2!).with(arg).once
-      @instance.should_receive(:parse_track_1!).with(arg).once.and_raise(StandardError)
-      lambda { @instance.parse_track! arg }.should raise_error(StandardError)
+      subject.should_receive(:parse_track_2!).with(arg).once
+      subject.should_receive(:parse_track_1!).with(arg).once.and_raise(StandardError)
+      lambda { subject.parse_track! arg }.should raise_error(StandardError)
     end
   end
 
@@ -30,6 +28,7 @@ describe Plastic do
 
   describe "#parse_track_1!" do
     def mock_track_1_parser
+      subject
       parser = mock()
       described_class.should_receive(:track_1_parser).once.and_return(parser)
       parser
@@ -37,22 +36,22 @@ describe Plastic do
 
     it "with no arguments parses the contents of #track_1" do
       arg = "foo"
-      @instance.should_receive(:track_1).once.and_return(arg)
+      subject.should_receive(:track_1).once.and_return(arg)
       mock_track_1_parser.should_receive(:match).with(arg).once
-      @instance.parse_track_1!
+      subject.parse_track_1!
     end
 
     it "with nil parses the contents of #track_1" do
       arg = "foo"
-      @instance.should_receive(:track_1).once.and_return(arg)
+      subject.should_receive(:track_1).once.and_return(arg)
       mock_track_1_parser.should_receive(:match).with(arg).once
-      @instance.parse_track_1! nil
+      subject.parse_track_1! nil
     end
 
     [0, 1, "foo", "bar", StandardError].each do |value|
       it "with #{value} attempts to parse the string representation" do
         mock_track_1_parser.should_receive(:match).with(value.to_s).once
-        @instance.parse_track_1! value
+        subject.parse_track_1! value
       end
     end
   end
@@ -65,6 +64,7 @@ describe Plastic do
 
   describe "#parse_track_2!" do
     def mock_track_2_parser
+      subject
       parser = mock()
       described_class.should_receive(:track_2_parser).once.and_return(parser)
       parser
@@ -72,22 +72,22 @@ describe Plastic do
 
     it "with no arguments parses the contents of #track_2" do
       arg = "foo"
-      @instance.should_receive(:track_2).once.and_return(arg)
+      subject.should_receive(:track_2).once.and_return(arg)
       mock_track_2_parser.should_receive(:match).with(arg).once
-      @instance.parse_track_2!
+      subject.parse_track_2!
     end
 
     it "with nil parses the contents of #track_2" do
       arg = "foo"
-      @instance.should_receive(:track_2).once.and_return(arg)
+      subject.should_receive(:track_2).once.and_return(arg)
       mock_track_2_parser.should_receive(:match).with(arg).once
-      @instance.parse_track_2! nil
+      subject.parse_track_2! nil
     end
 
     [0, 1, "foo", "bar", StandardError].each do |value|
       it "with #{value} attempts to parse the string representation" do
         mock_track_2_parser.should_receive(:match).with(value.to_s).once
-        @instance.parse_track_2! value
+        subject.parse_track_2! value
       end
     end
   end
@@ -117,10 +117,10 @@ describe Plastic do
     [";123456789012345=1010123?", "123456789012345", "1010", ""],
   ].each do |value, pan, expiration, name|
     it "#parse_track!(\"#{value}\") correctly parses the track data" do
-      @instance.parse_track! value
-      @instance.pan.should == pan
-      @instance.expiration.should == expiration
-      @instance.name.should == name
+      subject.parse_track! value
+      subject.pan.should == pan
+      subject.expiration.should == expiration
+      subject.name.should == name
     end
   end
 end
