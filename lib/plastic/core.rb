@@ -1,5 +1,5 @@
 class Plastic
-  BRANDS = [:visa, :mastercard, :american_express, :discover]
+  BRANDS = [:visa, :mastercard, :american_express, :discover, :jcb]
 
   attr_accessor :pan, :expiration
   attr_accessor :track_name, :surname, :given_name, :title
@@ -40,12 +40,13 @@ class Plastic
 
   def brand
     case pan
-    when /^4/      then :visa
-    when /^5[1-5]/ then :mastercard
-    when /^677189/ then :mastercard
-    when /^6011/   then :discover
-    when /^65/     then :discover
-    when /^3[47]/  then :american_express
+    when /^4/               then :visa
+    when /^5[1-5]/          then :mastercard
+    when /^677189/          then :mastercard
+    when /^6011/            then :discover
+    when /^65/              then :discover
+    when /^3[47]/           then :american_express
+    when /^35(28|29|[3-8])/ then :jcb
     end
   end
 

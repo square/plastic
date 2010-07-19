@@ -181,11 +181,18 @@ describe Plastic do
       Plastic.new(:pan => "340000000000000").brand.should == :american_express
       Plastic.new(:pan => "370000000000000").brand.should == :american_express
     end
+
+    it "recognizes JCB cards" do
+      Plastic.new(:pan => "3540123456789012").brand.should == :jcb
+      Plastic.new(:pan => "3528000000000000").brand.should == :jcb
+      Plastic.new(:pan => "3589990000000000").brand.should == :jcb
+    end
   end
 
   describe "BRANDS constant" do
     it "returns a list of the brands as symbols" do
-      Plastic::BRANDS.should == [:visa, :mastercard, :american_express, :discover]
+      Plastic::BRANDS.should == [:visa, :mastercard, :american_express,
+                                 :discover, :jcb]
     end
   end
 
