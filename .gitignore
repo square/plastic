@@ -1,5 +1,4 @@
 *.gem
-*.gemspec
 *.log
 *.pid
 *.sqlite3
