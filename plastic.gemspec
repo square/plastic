@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{plastic}
-  s.version = "0.2.1"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Randy Reddig", "Cameron Walters", "Chris Kampmeier", "Erica Kwan", "Matthew O'Connor", "Damon McCormick", "Brian Jenkins"]
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/plastic/track.rb",
      "lib/plastic/validations.rb",
      "lib/plastic/version.rb",
+     "plastic.gemspec",
      "spec/plastic/core_spec.rb",
      "spec/plastic/duck_type_spec.rb",
      "spec/plastic/track_spec.rb",
