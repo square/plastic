@@ -288,5 +288,11 @@ describe Plastic do
       @plastic.pan = "4001111111111"
       @plastic.should_not be_valid
     end
+
+    it "is not valid if the brand is blank" do
+      @plastic.stub!(:valid_pan?).and_return(true)
+      @plastic.pan = "0480020605154711"
+      @plastic.should_not be_valid
+    end
   end
 end
