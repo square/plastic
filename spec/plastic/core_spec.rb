@@ -259,40 +259,4 @@ describe Plastic do
                                  :discover, :jcb]
     end
   end
-
-  describe "#valid?" do
-    before do
-      @plastic = Plastic.new(:pan => "5480020605154711", :expiration => "1501")
-    end
-
-    it "is valid if it has both a valid pan and an expiration" do
-      @plastic.should be_valid
-    end
-
-    it "is not valid if the pan is missing" do
-      @plastic.pan = nil
-      @plastic.should_not be_valid
-    end
-
-    it "is not valid if the expiration is missing" do
-      @plastic.expiration = nil
-      @plastic.should_not be_valid
-    end
-
-    it "is not valid if the card is expired" do
-      @plastic.expiration = "0901"
-      @plastic.should_not be_valid
-    end
-
-    it "is not valid if the pan does not pass its checksum" do
-      @plastic.pan = "4001111111111"
-      @plastic.should_not be_valid
-    end
-
-    it "is not valid if the brand is blank" do
-      @plastic.stub!(:valid_pan?).and_return(true)
-      @plastic.pan = "0480020605154711"
-      @plastic.should_not be_valid
-    end
-  end
 end

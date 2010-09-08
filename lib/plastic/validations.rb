@@ -1,18 +1,45 @@
 require 'date'
 
 class Plastic
+  def valid?
+    errors.clear
+    valid_brand? && valid_pan? && valid_expiration? && errors.empty?
+  end
+
+  def errors
+    @errors ||= []
+  end
+
+  def valid_brand?
+    valid = value_is_present?(brand)
+    errors << "Unknown card brand" unless valid
+    valid
+  end
+
   def valid_pan?
+    unless value_is_present?(pan)
+      errors << "PAN not present" 
+      return false
+    end
     valid_pan_length? && valid_pan_checksum?
   end
 
   def valid_expiration?
+    unless value_is_present?(expiration)
+      errors << "Expiration not present" 
+      return false
+    end
     return false unless valid_expiration_year? && valid_expiration_month?
+
     this = Time.now.utc
     if this.year == expiration_year
-      (this.month..12).include?(expiration_month)
+      valid = (this.month..12).include?(expiration_month)
+      errors << "Card has expired" unless valid
+      valid
     elsif expiration_year > this.year
       true
     else
+      errors << "Card has expired"
       false
     end
   end
@@ -20,7 +47,9 @@ class Plastic
 private
 
   def valid_pan_length?
-    pan.to_s.length >= 12
+    valid = (pan.to_s.length >= 12)
+    errors << "PAN is too short" unless valid
+    valid
   end
 
   def valid_pan_checksum?
@@ -29,15 +58,22 @@ private
       d = d.to_i
       checksum + ((odd = !odd) ? d : (d * 2 > 9 ? d * 2 - 9 : d * 2))
     end
-    sum % 10 == 0
+
+    valid = (sum % 10 == 0)
+    errors << "PAN does not pass checksum" unless valid
+    valid
   end
 
   def valid_expiration_month?
-    (1..12).include?(expiration_month)
+    valid = (1..12).include?(expiration_month)
+    errors << "Invalid expiration month" unless valid
+    valid
   end
 
   def valid_expiration_year?
     this = Time.now.utc
-    (this.year..this.year + 20).include?(expiration_year)
+    valid = (this.year..this.year + 20).include?(expiration_year)
+    errors << "Invalid expiration year" unless valid
+    valid
   end
 end

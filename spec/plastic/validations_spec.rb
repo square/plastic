@@ -4,23 +4,37 @@ describe Plastic, "validations" do
   describe "#valid_pan?" do
     subject { Plastic.new(:pan => "4111111111111111") }
 
+    it "is false if the pan is not present" do
+      subject.pan = ""
+      subject.should_not be_valid_pan
+      subject.errors.should == ["PAN not present"]
+    end
+
     it "is true when #valid_pan_length? and #valid_pan_checksum? are true" do
       subject.should be_valid_pan
     end
 
     it "is false when #valid_pan_length? is false" do
-      subject.should_receive(:valid_pan_length?).and_return(false)
+      subject.pan = "4111"
       subject.should_not be_valid_pan
+      subject.errors.should == ["PAN is too short"]
     end
 
     it "is false when #valid_pan_checksum? is false" do
-      subject.should_receive(:valid_pan_checksum?).and_return(false)
+      subject.pan = "4111111111111112"
       subject.should_not be_valid_pan
+      subject.errors.should == ["PAN does not pass checksum"]
     end
   end
 
   describe "#valid_expiration?" do
     subject { Plastic.new(:expiration => "1312") }
+
+    it "is false if the expiration is not present" do
+      subject.expiration = ""
+      subject.should_not be_valid_expiration
+      subject.errors.should == ["Expiration not present"]
+    end
 
     describe "when expiration_year is next year" do
       it "is true for all values of expiration_month" do
@@ -47,8 +61,10 @@ describe Plastic, "validations" do
       it "is false when expiration_month is earlier than this month" do
         this_year = DateTime.now.year.to_s[-2..-1]
         (1...DateTime.now.month).each do |month|
+          subject.errors.clear
           subject.expiration = "%02d%02d" % [@this_year, month]
           subject.should_not be_valid_expiration
+          subject.errors.should == ["Card has expired"]
         end
       end
     end
@@ -72,8 +88,13 @@ describe Plastic, "validations" do
     end
 
     it "is false when card number is less than 12 digits" do
-      Plastic.new(:pan => "0123456789").should_not be_valid_pan_length
-      Plastic.new(:pan => "01234567890").should_not be_valid_pan_length
+      plastic = Plastic.new(:pan => "0123456789")
+      plastic.should_not be_valid_pan_length
+      plastic.errors.should == ["PAN is too short"]
+
+      plastic = Plastic.new(:pan => "01234567890")
+      plastic.should_not be_valid_pan_length
+      plastic.errors.should == ["PAN is too short"]
     end
   end
 
@@ -108,7 +129,9 @@ describe Plastic, "validations" do
       5581777777777777
     ].each do |pan|
       it "is false with invalid PAN #{pan}" do
-        Plastic.new(:pan => pan).should_not be_valid_pan_checksum
+        plastic = Plastic.new(:pan => pan)
+        plastic.should_not be_valid_pan_checksum
+        plastic.errors.should == ["PAN does not pass checksum"]
       end
     end
   end
@@ -126,7 +149,9 @@ describe Plastic, "validations" do
       [0, 17, 31].each do |month|
         expiration = "YY%02d" % month
         expiration.should match(/^YY\d\d$/)
-        Plastic.new(:expiration => expiration).should_not be_valid_expiration_month
+        plastic = Plastic.new(:expiration => expiration)
+        plastic.should_not be_valid_expiration_month
+        plastic.errors.should == ["Invalid expiration month"]
       end
     end
   end
@@ -153,13 +178,62 @@ describe Plastic, "validations" do
     it "is false when set to last year" do
       invalid_year = DateTime.now.year - 1
       expiration = format_expiration_year_as_track(invalid_year)
-      Plastic.new(:expiration => expiration).should_not be_valid_expiration_year
+      plastic = Plastic.new(:expiration => expiration)
+      plastic.should_not be_valid_expiration_year
+      plastic.errors.should == ["Invalid expiration year"]
     end
 
     it "is false when set 21 years in the future" do
       invalid_year = DateTime.now.year + 21
       expiration = format_expiration_year_as_track(invalid_year)
-      Plastic.new(:expiration => expiration).should_not be_valid_expiration_year
+      plastic = Plastic.new(:expiration => expiration)
+      plastic.should_not be_valid_expiration_year
+      plastic.errors.should == ["Invalid expiration year"]
+    end
+  end
+
+  describe "#valid_brand?" do
+    it "is not valid if the brand is blank" do
+      plastic = Plastic.new(:pan => "0480020605154711", :expiration => "1312")
+      plastic.stub!(:valid_pan?).and_return(true)
+      plastic.should_not be_valid
+      plastic.errors.should == ["Unknown card brand"]
+    end
+  end
+
+  describe "#valid?" do
+    before do
+      @plastic = Plastic.new(:pan => "5480020605154711", :expiration => "1501")
+    end
+
+    it "is valid if it has both a valid pan and an expiration" do
+      @plastic.should be_valid
+    end
+
+    it "is not valid if the pan is missing" do
+      @plastic.pan = nil
+      @plastic.should_not be_valid
+    end
+
+    it "is not valid if the expiration is missing" do
+      @plastic.expiration = nil
+      @plastic.should_not be_valid
+    end
+
+    it "is not valid if the card is expired" do
+      @plastic.expiration = "0901"
+      @plastic.should_not be_valid
+    end
+
+    it "is not valid if the pan does not pass its checksum" do
+      @plastic.pan = "4001111111111"
+      @plastic.should_not be_valid
+    end
+
+    it "clears the errors before running" do
+      @plastic.errors << "some error"
+      @plastic.should be_valid
+      @plastic.errors.should be_empty
     end
   end
 end
