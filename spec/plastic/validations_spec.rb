@@ -25,6 +25,12 @@ describe Plastic, "validations" do
       subject.should_not be_valid_pan
       subject.errors.should == ["PAN does not pass checksum"]
     end
+
+    it "is false when only letters are passed in" do
+      subject.pan = "INVALID_PAYMENT_NUMBER"
+      subject.should_not be_valid_pan
+      subject.errors.should == ["PAN contains non-digit characters"]
+    end
   end
 
   describe "#valid_expiration?" do

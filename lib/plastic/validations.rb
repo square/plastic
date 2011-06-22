@@ -24,7 +24,7 @@ class Plastic
       errors << "PAN not present"
       return false
     end
-    valid_pan_length? && valid_pan_checksum?
+    valid_pan_characters? && valid_pan_length? && valid_pan_checksum?
   end
 
   def valid_expiration?
@@ -48,6 +48,12 @@ class Plastic
   end
 
 private
+
+  def valid_pan_characters?
+    valid = pan.to_s =~ /\A[\d ]+\z/
+    errors << "PAN contains non-digit characters" unless valid
+    valid
+  end
 
   def valid_pan_length?
     valid = (pan.to_s.length >= 12)
