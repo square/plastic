@@ -3,7 +3,10 @@ require 'date'
 class Plastic
   def valid?
     errors.clear
-    valid_brand? && valid_pan? && valid_expiration? && errors.empty?
+    valid_pan?
+    valid_brand?
+    valid_expiration?
+    errors.empty?
   end
 
   def errors
@@ -18,7 +21,7 @@ class Plastic
 
   def valid_pan?
     unless value_is_present?(pan)
-      errors << "PAN not present" 
+      errors << "PAN not present"
       return false
     end
     valid_pan_length? && valid_pan_checksum?
@@ -26,7 +29,7 @@ class Plastic
 
   def valid_expiration?
     unless value_is_present?(expiration)
-      errors << "Expiration not present" 
+      errors << "Expiration not present"
       return false
     end
     return false unless valid_expiration_year? && valid_expiration_month?
