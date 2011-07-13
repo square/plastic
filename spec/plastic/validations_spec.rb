@@ -36,6 +36,27 @@ describe Plastic, "validations" do
   describe "#valid_expiration?" do
     subject { Plastic.new(:expiration => "1312") }
 
+    it "is false when set to last year" do
+      freeze_time!(Time.utc(2002, 01, 25))
+      plastic = Plastic.new(:expiration => '0101', :pan => "4111111111111111")
+      plastic.should_not be_valid
+      plastic.errors.should == ["Card has expired"]
+    end
+
+    it "is false when set 21 years in the future" do
+      freeze_time!(Time.utc(2001, 01, 25))
+      plastic = Plastic.new(:expiration => '2201', :pan => "4111111111111111")
+      plastic.should_not be_valid
+      plastic.errors.should == ["Card has expired"]
+    end
+
+    it "is false when set to 20 years in the past" do
+      freeze_time!(Time.utc(2001, 01, 25))
+      plastic = Plastic.new(:expiration => '8101', :pan => "4111111111111111")
+      plastic.should_not be_valid
+      plastic.errors.should == ["Card has expired"]
+    end
+
     it "is false if the expiration is not present" do
       subject.expiration = ""
       subject.should_not be_valid_expiration
@@ -181,20 +202,8 @@ describe Plastic, "validations" do
       end
     end
 
-    it "is false when set to last year" do
-      invalid_year = DateTime.now.year - 1
-      expiration = format_expiration_year_as_track(invalid_year)
-      plastic = Plastic.new(:expiration => expiration)
-      plastic.should_not be_valid_expiration_year
-      plastic.errors.should == ["Invalid expiration year"]
-    end
-
-    it "is false when set 21 years in the future" do
-      invalid_year = DateTime.now.year + 21
-      expiration = format_expiration_year_as_track(invalid_year)
-      plastic = Plastic.new(:expiration => expiration)
-      plastic.should_not be_valid_expiration_year
-      plastic.errors.should == ["Invalid expiration year"]
+    it "is false when set to a string" do
+      Plastic.new(:expiration => 'ab01').should_not be_valid_expiration_year
     end
   end
 

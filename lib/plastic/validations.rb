@@ -1,6 +1,8 @@
 require 'date'
 
 class Plastic
+  PIVOT_YEAR = 20.freeze
+
   def valid?
     errors.clear
     valid_pan?
@@ -39,7 +41,7 @@ class Plastic
       valid = (this.month..12).include?(expiration_month)
       errors << "Card has expired" unless valid
       valid
-    elsif expiration_year > this.year
+    elsif expiration_year > this.year && expiration_year < this.year + PIVOT_YEAR
       true
     else
       errors << "Card has expired"
@@ -80,8 +82,7 @@ private
   end
 
   def valid_expiration_year?
-    this = Time.now.utc
-    valid = (this.year..this.year + 20).include?(expiration_year)
+    valid = !!(expiration_yy =~ /\d\d/)
     errors << "Invalid expiration year" unless valid
     valid
   end
