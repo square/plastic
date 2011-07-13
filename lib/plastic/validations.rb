@@ -82,7 +82,7 @@ private
   end
 
   def valid_expiration_year?
-    valid = !!(expiration_yy =~ /\d\d/)
+    valid = (expiration_yy =~ /\d\d/)
     errors << "Invalid expiration year" unless valid
     valid
   end
