@@ -1,5 +1,5 @@
 class Plastic
-  BRANDS = [:visa, :mastercard, :american_express, :discover, :jcb]
+  BRANDS = [:visa, :mastercard, :american_express, :discover, :discover_diners, :jcb]
 
   attr_accessor :pan, :expiration
   attr_accessor :track_name, :surname, :given_name, :title
@@ -49,6 +49,10 @@ class Plastic
     when /^3[47]\d{13}$/    then :american_express
     when /^352[8-9]\d{12}$/ then :jcb
     when /^35[3-8]\d{13}$/  then :jcb
+    when /^30\d{12}$/       then :discover_diners
+    when /^36\d{12}$/       then :discover_diners
+    when /^38\d{12}$/       then :discover_diners
+    when /^39\d{12}$/       then :discover_diners
     end
   end
 
