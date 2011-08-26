@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = "plastic"
-  s.version     = "0.2.4"
+  s.version     = "0.2.5"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Randy Reddig", "Cameron Walters", "Chris Kampmeier", "Erica Kwan", "Matthew O'Connor", "Damon McCormick", "Brian Jenkins", "Abhay Kumar"]
   s.email       = ["github@squareup.com"]

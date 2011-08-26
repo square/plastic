@@ -1,7 +1,7 @@
 class Plastic
   BRANDS = [:visa, :mastercard, :american_express, :discover, :discover_diners, :jcb]
 
-  attr_accessor :pan, :expiration
+  attr_accessor :pan, :expiration, :masked_pan
   attr_accessor :track_name, :surname, :given_name, :title
   attr_accessor :service_code, :cvv2
   attr_accessor :track_1, :track_2
@@ -38,8 +38,13 @@ class Plastic
     expiration_mm.to_i
   end
 
+  def masked_pan
+    return nil if @masked_pan.nil? && pan.nil?
+    @masked_pan ||= pan[0...6] + "X" * pan[6...-4].size + pan[-4..-1]
+  end
+
   def brand
-    case pan
+    case (masked_pan || "").gsub('X', '0')
     when /^4\d{15}$/        then :visa
     when /^5[1-5]\d{14}$/   then :mastercard
     when /^677189\d{10}$/   then :mastercard
