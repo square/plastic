@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.name        = "plastic"
   s.version     = "0.2.5"
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Randy Reddig", "Cameron Walters", "Chris Kampmeier", "Erica Kwan", "Matthew O'Connor", "Damon McCormick", "Brian Jenkins", "Abhay Kumar"]
+  s.authors     = ["Randy Reddig", "Cameron Walters", "Chris Kampmeier", "Erica Kwan", "Matthew O'Connor", "Damon McCormick", "Brian Jenkins", "Abhay Kumar", "Randy Wigginton", "Simo Leone"]
   s.email       = ["github@squareup.com"]
   s.summary     = "Credit card library for Ruby."
   s.description = "Handle credit, debit, bank and other cards."
