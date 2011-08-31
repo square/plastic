@@ -15,8 +15,8 @@ describe Plastic, "validations" do
     end
 
     it "is false when #valid_pan_length? is false" do
-      subject.pan = "4111"
-      subject.should_not be_valid_pan
+      subject.pan = "411"
+      subject.should_not be_valid_pan_length
       subject.errors.should == ["PAN is too short"]
     end
 

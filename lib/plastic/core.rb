@@ -39,7 +39,8 @@ class Plastic
   end
 
   def masked_pan
-    return nil if @masked_pan.nil? && pan.nil?
+    return @masked_pan unless @masked_pan.nil?
+    return nil if pan.nil? || pan.length < 12
     @masked_pan ||= pan[0...6] + "X" * pan[6...-4].size + pan[-4..-1]
   end
 
