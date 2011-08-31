@@ -7,7 +7,7 @@ describe Plastic do
   subject { described_class.new }
 
   [
-    :pan, :expiration,
+    :pan, :expiration, :masked_pan,
     :track_name, :surname, :given_name, :title,
     :service_code, :cvv2,
     :track_1, :track_2,
@@ -267,6 +267,36 @@ describe Plastic do
     it "returns a list of the brands as symbols" do
       Plastic::BRANDS.should == [:visa, :mastercard, :american_express,
                                  :discover, :discover_diners, :jcb]
+    end
+  end
+
+  describe "masked_pan" do
+    context "created with a pan" do
+      it "should mask middle digits, leaving first 6 and last 4" do
+        Plastic.new(:pan => "4111111111111111").masked_pan.should == "411111XXXXXX1111"
+      end
+    end
+
+    context "created with a masked_pan" do
+      it "should not have a pan" do
+        Plastic.new(:masked_pan => "411111XXXXXX1111").pan.should be_nil
+      end
+
+      it "should be able to determine the brand from a masked pan" do
+        Plastic.new(:masked_pan => "411111XXXXXX1111").brand.should == :visa
+        Plastic.new(:masked_pan => "510000XXXXXX0000").brand.should == :mastercard
+        Plastic.new(:masked_pan => "340000XXXXX0000").brand.should == :american_express
+      end
+    end
+
+    context "created with no pan or masked_pan" do
+      it "should not have a pan" do
+        Plastic.new.pan.should be_nil
+      end
+
+      it "should not have a masked pan" do
+        Plastic.new.masked_pan.should be_nil
+      end
     end
   end
 end
