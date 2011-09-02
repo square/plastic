@@ -73,8 +73,8 @@ class Plastic
   # End sentinel — one character (generally '?')
 
   TRACK_2_PARSER = /\A;?(\d{12,19})\=([^\?]*)\??\z/.freeze
-  TRACK_2_NON_REGISTERED_PARSER = /(\d{3})(\d{4})(\=|.{3})([^\?]*)\??\z/.freeze
-  TRACK_2_REGISTERED_PARSER = /(\d{4})(\=|.{3})([^\?]*)\??\z/.freeze
+  TRACK_2_NON_REGISTERED_PARSER = /(\d{3})(\d{4})(\=|\d{3})([^\?]*)\??\z/.freeze
+  TRACK_2_REGISTERED_PARSER = /(\d{4})(\=|\d{3})([^\?]*)\??\z/.freeze
 
   def self.track_2_parser
     TRACK_2_PARSER
