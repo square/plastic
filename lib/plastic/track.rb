@@ -67,14 +67,15 @@ class Plastic
   # Start sentinel — one character (generally ';')
   # Primary account number (PAN) — up to 19 characters. Usually, but not always, matches the credit card number printed on the front of the card.
   # Separator — one char (generally '=')
-  # Expiration date — four characters in the form YYMM.
-  # Service code — three characters
+  # Country Code - optional - three characters, if the PAN starts with 59
+  # Expiration date — four characters in the form YYMM or '=
+  # Service code — three characters or '=
   # Discretionary data — as in track one
   # End sentinel — one character (generally '?')
 
-  TRACK_2_PARSER = /\A;?(\d{12,19})\=([^\?]*)\??\z/.freeze
-  TRACK_2_NON_REGISTERED_PARSER = /(\d{3})(\d{4})(\=|\d{3})([^\?]*)\??\z/.freeze
-  TRACK_2_REGISTERED_PARSER = /(\d{4})(\=|\d{3})([^\?]*)\??\z/.freeze
+  TRACK_2_PARSER = /\A;?(\d{12,19})\=([^\?]*?)\??\z/.freeze
+  TRACK_2_NON_REGISTERED_PARSER = /\A(\d{3})(\d{4}|\=)(\d{3}|\=)([^\?]*?)\z/
+  TRACK_2_REGISTERED_PARSER = /\A(\d{4}|\=)(\d{3}|\=)([^\?]*?)\z/
 
   def self.track_2_parser
     TRACK_2_PARSER
@@ -90,23 +91,27 @@ class Plastic
 
   def parse_track_2!(value=nil)
     value ||= track_2
-    if matched = self.class.track_2_parser.match(value.to_s)
+    if matched = Plastic.track_2_parser.match(value.to_s)
       self.pan = matched[1]
-      if is_non_registered_iso_card
-        matched = self.class.track_2_non_registered_parser.match(matched[2])
-        self.expiration = matched[2]
-        self.service_code = matched[3]
-      else
-        matched = self.class.track_2_registered_parser.match(matched[2])
-        self.expiration = matched[1]
-        self.service_code = matched[2]
+      unless matched[2].nil?
+        if is_non_registered_iso_card?
+          if tail_match = Plastic.track_2_non_registered_parser.match(matched[2])
+            self.expiration = tail_match[2]
+            self.service_code = tail_match[3]
+          end
+        else
+          if tail_match = Plastic.track_2_registered_parser.match(matched[2])
+            self.expiration = tail_match[1]
+            self.service_code = tail_match[2]
+          end
+        end
       end
     end
   end
 
 protected
 
-  def is_non_registered_iso_card
+  def is_non_registered_iso_card?
     return self.pan =~ /\A59.*\z/
   end
 end
