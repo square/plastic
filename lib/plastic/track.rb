@@ -68,8 +68,8 @@ class Plastic
   # Primary account number (PAN) — up to 19 characters. Usually, but not always, matches the credit card number printed on the front of the card.
   # Separator — one char (generally '=')
   # Country Code - optional - three characters, if the PAN starts with 59
-  # Expiration date — four characters in the form YYMM or '=
-  # Service code — three characters or '=
+  # Expiration date — four characters in the form YYMM or '='
+  # Service code — three characters or '='
   # Discretionary data — as in track one
   # End sentinel — one character (generally '?')
 
