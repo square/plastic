@@ -57,8 +57,20 @@ describe Plastic, "validations" do
       plastic.errors.should == ["Card has expired"]
     end
 
+    it "is false if the expiration is nil" do
+      subject.expiration = nil
+      subject.should_not be_valid_expiration
+      subject.errors.should == ["Expiration not present"]
+    end
+
     it "is false if the expiration is not present" do
       subject.expiration = ""
+      subject.should_not be_valid_expiration
+      subject.errors.should == ["Expiration not present"]
+    end
+
+    it "is false if the expiration is elided" do
+      subject.expiration = "="
       subject.should_not be_valid_expiration
       subject.errors.should == ["Expiration not present"]
     end
