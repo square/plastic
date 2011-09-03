@@ -30,7 +30,7 @@ class Plastic
   end
 
   def valid_expiration?
-    unless value_is_present?(expiration)
+    unless value_is_present?(expiration) && expiration != '='
       errors << "Expiration not present"
       return false
     end
