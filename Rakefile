@@ -1,13 +1,13 @@
 require 'rubygems'
 require 'rake'
-require 'spec/rake/spectask'
+require 'rspec/core/rake_task'
 
 require File.join(File.dirname(__FILE__), 'lib', 'plastic', 'version')
 
 desc "Run all specs"
-Spec::Rake::SpecTask.new do |t|
-  t.spec_opts = ["--options", "spec/spec.opts"]
-  t.spec_files = FileList["spec/**/*_spec.rb"]
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.rspec_opts = ["--options", "spec/spec.opts"]
+  t.pattern = 'spec/**/*_spec.rb'
   t.rcov = ENV["RCOV"]
   t.rcov_opts = %w{--exclude osx\/objc,gems\/,spec\/}
   t.verbose = true
