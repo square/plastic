@@ -36,7 +36,11 @@ class Plastic
     end
     return false unless valid_expiration_year? && valid_expiration_month?
 
-    this = Time.now.utc
+    # We subtract 13 hours from the current expiration time in UTC
+    # so that a card that expires on 28 February 2013 in UTC-1300 is still considered valid
+    # until 13:00 1 March 2013 in UTC.
+    this = Time.now.utc - (60 * 60 * 13)
+
     if this.year == expiration_year
       valid = (this.month..12).include?(expiration_month)
       errors << "Card has expired" unless valid

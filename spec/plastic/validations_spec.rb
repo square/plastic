@@ -75,6 +75,20 @@ describe Plastic, "validations" do
       subject.errors.should == ["Expiration not present"]
     end
 
+    it "is valid on the first day of the month in UTC when expiry is the previous month" do
+      freeze_time!(Time.utc(2013, 03, 01, 12, 59))
+      plastic = Plastic.new(:expiration => '1302', :pan => "4111111111111111")
+      plastic.should be_valid_expiration
+      plastic.errors.should_not == ["Card has expired"]
+    end
+
+    it "is not valid on the second day of the month in UTC when expiry is the previous month" do
+      freeze_time!(Time.utc(2013, 03, 02))
+      plastic = Plastic.new(:expiration => '1302', :pan => "4111111111111111")
+      plastic.should_not be_valid_expiration
+      plastic.errors.should == ["Card has expired"]
+    end
+
     describe "when expiration_year is next year" do
       it "is true for all values of expiration_month" do
         next_year = (DateTime.now.year + 1).to_s[-2..-1]
