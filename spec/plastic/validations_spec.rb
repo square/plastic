@@ -235,7 +235,8 @@ describe Plastic, "validations" do
 
   describe "#valid_brand?" do
     it "is not valid if the brand is blank" do
-      plastic = Plastic.new(:pan => "0480020605154711", :expiration => "1812")
+      future_expiration = (Date.today >> 12).strftime("%y%m")
+      plastic = Plastic.new(:pan => "0480020605154711", :expiration => future_expiration)
       plastic.stub!(:valid_pan?).and_return(true)
       plastic.should_not be_valid
       plastic.errors.should == ["Unknown card brand"]
