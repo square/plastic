@@ -258,15 +258,15 @@ describe Plastic do
       Plastic.new(:pan => "30569309025904").brand.should == :discover_diners
     end
 
-    it "recognizes China UnionPay as Discover" do
-      Plastic.new(:pan => "6242000000000000").brand.should == :discover
+    it "recognizes China UnionPay cards" do
+      Plastic.new(:pan => "6242000000000000").brand.should == :unionpay
     end
   end
 
   describe "BRANDS constant" do
     it "returns a list of the brands as symbols" do
       Plastic::BRANDS.should == [:visa, :mastercard, :american_express,
-                                 :discover, :discover_diners, :jcb]
+                                 :discover, :discover_diners, :jcb, :unionpay]
     end
   end
 
